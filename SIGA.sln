@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIGA.API", "SIGA\SIGA.API.csproj", "{C260F6BC-269F-4628-BC81-50E74A5D27FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIGA.Lib", "SIGA.Lib\SIGA.Lib.csproj", "{B6E4A34D-9CF0-44B6-AA62-998625E8EDF6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C260F6BC-269F-4628-BC81-50E74A5D27FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C260F6BC-269F-4628-BC81-50E74A5D27FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C260F6BC-269F-4628-BC81-50E74A5D27FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C260F6BC-269F-4628-BC81-50E74A5D27FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6E4A34D-9CF0-44B6-AA62-998625E8EDF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6E4A34D-9CF0-44B6-AA62-998625E8EDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6E4A34D-9CF0-44B6-AA62-998625E8EDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6E4A34D-9CF0-44B6-AA62-998625E8EDF6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {300FEF53-F3AD-4525-BC9F-C02B4BEE4A24}
+	EndGlobalSection
+EndGlobal
