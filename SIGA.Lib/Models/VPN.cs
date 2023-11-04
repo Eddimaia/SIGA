@@ -3,8 +3,12 @@ public class VPN : ModelBase
 {
     public string Nome { get; set; } = string.Empty;
     public string Host { get; set; } = string.Empty;
-    public int Port { get; set; }
+    public short Port { get; set; }
     public string Descricao { get; set; } = string.Empty;
     public bool AcessoForaDoServidor { get; set; } = false;
-    public List<ClientVPN> ClientVPN { get; set; } = new();
+
+    public ClientVPN ClientVPN { get; set; } = new();
+    public Concessao Concessao { get; set; } = new();
+
+    public List<Acesso> Acessos { get; set; } = new();
 }

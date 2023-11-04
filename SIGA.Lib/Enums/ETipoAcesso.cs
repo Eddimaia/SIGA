@@ -2,5 +2,6 @@
 public enum ETipoAcesso
 {
     BancoDeDados = 1,
-    Servidor = 2
+    Servidor = 2,
+    VPN = 3
 }
