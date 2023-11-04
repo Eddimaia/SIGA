@@ -6,10 +6,26 @@ namespace SIGA.API.Data;
 
 public class SIGAAppDbContext : DbContext
 {
-    public SIGAAppDbContext(DbContextOptions<SIGAAppDbContext> options) : base(options) { }
-    public DbSet<Funcionario> Funcionarios { get; set; }
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.ApplyConfiguration(new FuncionarioMapper());
-    }
+	public SIGAAppDbContext(DbContextOptions<SIGAAppDbContext> options) : base(options) { }
+	public DbSet<Acesso> Acessos { get; set; }
+	public DbSet<AnexoInstalacao> AnexosIntalacoes { get; set; }
+	public DbSet<ClientVPN> ClientsVPNs { get; set; }
+	public DbSet<Concessao> Concessoes { get; set; }
+	public DbSet<Funcionario> Funcionarios { get; set; }
+	public DbSet<Grupo> Grupos { get; set; }
+	public DbSet<Projeto> Projetos { get; set; }
+	public DbSet<Role> Roles { get; set; }
+	public DbSet<VPN> VPNs { get; set; }
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		modelBuilder.ApplyConfiguration(new AcessoMapper());
+		modelBuilder.ApplyConfiguration(new AnexoInstalacaoMapper());
+		modelBuilder.ApplyConfiguration(new ClientVPNMapper());
+		modelBuilder.ApplyConfiguration(new ConcessaoMapper());
+		modelBuilder.ApplyConfiguration(new FuncionarioMapper());
+		modelBuilder.ApplyConfiguration(new GrupoMapper());
+		modelBuilder.ApplyConfiguration(new ProjetoMapper());
+		modelBuilder.ApplyConfiguration(new RoleMapper());
+		modelBuilder.ApplyConfiguration(new VPNMapper());
+	}
 }

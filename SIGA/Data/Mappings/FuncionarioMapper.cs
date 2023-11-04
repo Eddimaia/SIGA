@@ -11,6 +11,10 @@ public class FuncionarioMapper : IEntityTypeConfiguration<Funcionario>
         builder
             .ToTable("Funcionario")
             .HasKey(x => x.Id);
+
+        builder
+            .HasIndex(x => x.Email, "IX_Funcionario_Email")
+            .IsUnique();
         
         builder
         .Property(x => x.Id)
@@ -23,13 +27,20 @@ public class FuncionarioMapper : IEntityTypeConfiguration<Funcionario>
             .HasColumnType("NVARCHAR")
             .HasMaxLength(50);
 
-        builder.Property(x => x.Email)
+		builder.Property(x => x.Sobrenome)
+			.IsRequired()
+			.HasColumnName("Sobrenome")
+			.HasColumnType("NVARCHAR")
+			.HasMaxLength(50);
+
+		builder.Property(x => x.Email)
             .IsRequired()
             .HasColumnName("Email")
             .HasColumnType("VARCHAR")
             .HasMaxLength(160);
 
-        builder.Property(x => x.PasswordHash).IsRequired()
+        builder.Property(x => x.PasswordHash)
+            .IsRequired()
             .HasColumnName("PasswordHash")
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
@@ -75,7 +86,7 @@ public class FuncionarioMapper : IEntityTypeConfiguration<Funcionario>
             .WithMany(x => x.Funcionarios)
             .UsingEntity<Dictionary<string, object>>(
                 "FuncionarioAcesso",
-                projeto => projeto
+                acesso => acesso
                     .HasOne<Acesso>()
                     .WithMany()
                     .HasForeignKey("AcessoId")

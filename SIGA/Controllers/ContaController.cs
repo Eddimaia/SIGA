@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SIGA.API.Data;
-using System;
 using SIGA.Lib.DTOs;
 using SIGA.Lib.Extensions;
 using SIGA.Lib.Models;
@@ -36,8 +34,6 @@ public class ContaController : ControllerBase
             await _context.Funcionarios.AddAsync(funcionario);
             await _context.SaveChangesAsync();
 
-            //emailService.Send(funcionario.Name, funcionario.Email, "Bem vindo a Estudo API!", $"Sua senha é <strong>{password}</<strong>");
-
             transaction.Commit();
             return Ok(new ResponseDTO<dynamic>(new
             {
@@ -47,13 +43,13 @@ public class ContaController : ControllerBase
         catch ( DbUpdateException )
         {
             transaction.Rollback();
-            return StatusCode(400, new ResponseDTO<string>("MSG-E010.0 - Este E-mail já está cadastrado"));
+            return StatusCode(400, new ResponseDTO<string>("C1xE02 - Este E-mail já está cadastrado"));
         }
         catch ( Exception ex )
         {
             transaction.Rollback();
             await _context.SaveChangesAsync(false);
-            return StatusCode(500, new ResponseDTO<string>("MSG-E02.0 - Falha interna no servidor"));
+            return StatusCode(500, new ResponseDTO<string>("C1xE01 - Falha interna no servidor"));
         }
     }
 }
