@@ -20,7 +20,7 @@ public class ContaController : ControllerBase
 	}
 	[HttpPost("v1/contas")]
 	public async Task<IActionResult> Post(
-		[FromBody] RegistroContaDTO model, 
+		[FromBody] RegistroContaDTO model,
 		[FromServices] IMapper mapper)
 	{
 		if (!ModelState.IsValid)
@@ -45,7 +45,10 @@ public class ContaController : ControllerBase
 	}
 
 	[HttpPost("v1/contas/login")]
-	public async Task<IActionResult> Login([FromBody] LoginDTO model, [FromServices] TokenService tokenService)
+	public async Task<IActionResult> Login(
+		[FromBody] LoginDTO model, 
+		[FromServices] TokenService tokenService, 
+		[FromServices] IMapper mapper)
 	{
 		if (!ModelState.IsValid)
 			return BadRequest(new ResponseDTO<string>(ModelState.GetErrors()));
@@ -62,7 +65,10 @@ public class ContaController : ControllerBase
 
 			var token = tokenService.GenerateToken(funcionario);
 
-			return Ok(new ResponseDTO<string>(token, null));
+			var funcionarioDto = mapper.Map<FuncionarioDTO>(funcionario);
+			funcionarioDto.Token = token;
+
+			return Ok(new ResponseDTO<FuncionarioDTO>(funcionarioDto));
 		}
 		catch
 		{

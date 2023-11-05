@@ -44,6 +44,8 @@ public class ContaRepository : IContaRepository
 		var funcionario = await _context.Funcionarios
 			.AsNoTracking()
 			.Include(x => x.Roles)
+			.Include(x => x.Projetos)
+			.Include(x => x.Acessos)
 			.FirstOrDefaultAsync(x => x.Login.ToLower().Equals(login.ToLower()));
 		return funcionario;
 	}

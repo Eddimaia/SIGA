@@ -1,7 +1,10 @@
-﻿namespace SIGA.Lib.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace SIGA.Lib.Models;
 public class Role : ModelBase
 {
     public string Nome { get; set; } = string.Empty;
 
-    public List<Funcionario> Funcionarios { get; set; } = new();
+	[JsonIgnore]
+	public List<Funcionario> Funcionarios { get; set; } = new();
 }

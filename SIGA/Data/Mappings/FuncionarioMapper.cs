@@ -15,8 +15,12 @@ public class FuncionarioMapper : IEntityTypeConfiguration<Funcionario>
         builder
             .HasIndex(x => x.Email, "IX_Funcionario_Email")
             .IsUnique();
-        
+
         builder
+			.HasIndex(x => x.Login, "IX_Funcionario_Login")
+			.IsUnique();
+
+		builder
         .Property(x => x.Id)
         .ValueGeneratedOnAdd()
         .UseIdentityColumn();

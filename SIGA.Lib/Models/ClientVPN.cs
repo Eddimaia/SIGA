@@ -1,4 +1,6 @@
-﻿namespace SIGA.Lib.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace SIGA.Lib.Models;
 public class ClientVPN : ModelBase
 {
     public string Nome { get; set; } = string.Empty;
@@ -7,7 +9,9 @@ public class ClientVPN : ModelBase
     public string Observacao { get; set; } = string.Empty;
     public string DescricaoInstalacao { get; set; } = string.Empty;
 
-    public VPN VPN { get; set; } = new();
+	[JsonIgnore]
+	public VPN VPN { get; set; } = new();
 
-    public List<AnexoInstalacao> AnexosInstalacao { get; set; } = new();
+	[JsonIgnore]
+	public List<AnexoInstalacao> AnexosInstalacao { get; set; } = new();
 }

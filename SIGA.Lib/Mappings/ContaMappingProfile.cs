@@ -12,5 +12,7 @@ public class ContaMappingProfile : Profile
 			.ForMember(destino => destino.PasswordHash, 
 			map => map.MapFrom(
 				src => src.Password.GetPasswordHash()));
+
+		CreateMap<Funcionario, FuncionarioDTO>().ReverseMap();
 	}
 }
