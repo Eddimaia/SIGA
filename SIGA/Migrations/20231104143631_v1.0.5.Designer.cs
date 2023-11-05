@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIGA.API.Data;
 
@@ -11,9 +12,11 @@ using SIGA.API.Data;
 namespace SIGA.API.Migrations
 {
     [DbContext(typeof(SIGAAppDbContext))]
-    partial class SIGAAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231104143631_v1.0.5")]
+    partial class v105
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,12 +255,6 @@ namespace SIGA.API.Migrations
                         .HasMaxLength(160)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Email");
-
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("VARCHAR")
-                        .HasColumnName("Login");
 
                     b.Property<string>("Nome")
                         .IsRequired()

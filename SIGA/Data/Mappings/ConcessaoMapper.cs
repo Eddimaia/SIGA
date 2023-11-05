@@ -30,7 +30,7 @@ public class ConcessaoMapper : IEntityTypeConfiguration<Concessao>
 
 		builder.Property(x => x.UF)
 			.HasColumnName("UF")
-			.HasColumnName("CHAR")
+			.HasColumnType("CHAR")
 			.HasMaxLength(2);
 
 		builder

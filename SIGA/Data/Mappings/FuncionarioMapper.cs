@@ -21,7 +21,13 @@ public class FuncionarioMapper : IEntityTypeConfiguration<Funcionario>
         .ValueGeneratedOnAdd()
         .UseIdentityColumn();
 
-        builder.Property(x => x.Nome)
+		builder.Property(x => x.Login)
+			.IsRequired()
+			.HasColumnName("Login")
+			.HasColumnType("VARCHAR")
+			.HasMaxLength(10);
+
+		builder.Property(x => x.Nome)
             .IsRequired()
             .HasColumnName("Nome")
             .HasColumnType("NVARCHAR")
