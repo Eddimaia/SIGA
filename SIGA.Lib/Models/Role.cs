@@ -5,6 +5,6 @@ public class Role : ModelBase
 {
     public string Nome { get; set; } = string.Empty;
 
-	[JsonIgnore]
-	public List<Funcionario> Funcionarios { get; set; } = new();
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+	public List<Funcionario>? Funcionarios { get; set; } = default;
 }
