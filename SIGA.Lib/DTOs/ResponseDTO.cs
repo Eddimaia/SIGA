@@ -1,8 +1,13 @@
-﻿namespace SIGA.Lib.DTOs;
+﻿using System.Text.Json.Serialization;
+
+namespace SIGA.Lib.DTOs;
 public class ResponseDTO<T> where T : class
 {
-    public T? Data { get; private set; } = default;
-    public List<string> Erros { get; private set; } = new();
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+	public T? Data { get; private set; } = default;
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public List<string>? Erros { get; private set; } = default;
 
     public ResponseDTO(T data, List<string> erros)
     {
@@ -12,5 +17,5 @@ public class ResponseDTO<T> where T : class
 
     public ResponseDTO(List<string> erros) => Erros = erros;
     public ResponseDTO(T data) => Data = data;
-    public ResponseDTO(string erro) => Erros.Add(erro);
+    public ResponseDTO(string erro) => Erros?.Add(erro);
 }

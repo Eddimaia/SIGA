@@ -17,7 +17,10 @@ public class ContaRepository : IContaRepository
 
 	public async Task Delete(int id)
 	{
-		var funcionario = await _context.Funcionarios.FirstOrDefaultAsync(x => x.Id == id) ?? throw new DataNotFoundException("Funcionário não encontrado");
+		if (_context.Funcionarios is null)
+			throw new Exception("Entity set 'SIGAAppDbContext.Funcionarios'  is null.");
+
+		var funcionario = await _context.Funcionarios.FindAsync(id) ?? throw new DataNotFoundException("Funcionário não encontrado");
 
 		_context.Funcionarios.Remove(funcionario);
 		await _context.SaveChangesAsync();
@@ -33,12 +36,11 @@ public class ContaRepository : IContaRepository
 
 	public async Task<Funcionario?> GetById(int id)
 	{
-		var funcionario = await _context.Funcionarios
-			.AsNoTracking()
-			.FirstOrDefaultAsync(x => x.Id == id);
-		return funcionario;
-	}
+		if (_context.Funcionarios is null)
+			throw new Exception("Entity set 'SIGAAppDbContext.Funcionarios'  is null.");
 
+		return await _context.Funcionarios.FindAsync(id) ?? throw new DataNotFoundException("Funcionário não encontrada;");
+	}
 	public async Task<Funcionario?> GetByLogin(string login)
 	{
 		var funcionario = await _context.Funcionarios
@@ -50,22 +52,35 @@ public class ContaRepository : IContaRepository
 		return funcionario;
 	}
 
-	public async Task Register(Funcionario funcionario)
+	public async Task Save(Funcionario entity)
 	{
-		await _context.Funcionarios.AddAsync(funcionario);
-		await _context.SaveChangesAsync();
-	}
+		if (_context.Funcionarios is null)
+			throw new Exception("Entity set 'SIGAAppDbContext.Funcionarios'  is null.");
 
-	public Task Save(Funcionario entity)
-	{
-		throw new NotImplementedException();
+		_context.Funcionarios.Add(entity);
+		await _context.SaveChangesAsync();
 	}
 
 	public async Task Update(Funcionario entity)
 	{
-		var funcionario = await _context.Funcionarios.FirstOrDefaultAsync(x => x.Id == entity.Id) ?? throw new DataNotFoundException("Funcionário não encontrado");
+		var entry = _context.Entry(entity);
 
-		_context.Funcionarios.Update(funcionario);
-		await _context.SaveChangesAsync();
+		entry.State = EntityState.Modified;
+		entry.Property(x => x.PasswordHash).IsModified = false;
+		entry.Property(x => x.Login).IsModified = false;
+
+		try
+		{
+			await _context.SaveChangesAsync();
+		}
+		catch (DbUpdateConcurrencyException)
+		{
+			if (!ContaExists(entity.Id))
+				throw new DataNotFoundException("Funcionário não encontrado");
+			else
+				throw;
+		}
 	}
+
+	private bool ContaExists(int id) => (_context.Funcionarios?.Any(e => e.Id == id)).GetValueOrDefault();
 }

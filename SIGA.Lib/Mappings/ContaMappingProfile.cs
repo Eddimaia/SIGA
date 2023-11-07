@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SIGA.Lib.DTOs;
+using SIGA.Lib.DTOs.Funcionario;
 using SIGA.Lib.Extensions;
 using SIGA.Lib.Models;
 
@@ -14,5 +15,9 @@ public class ContaMappingProfile : Profile
 				src => src.Password.GetPasswordHash()));
 
 		CreateMap<Funcionario, FuncionarioDTO>().ReverseMap();
+
+		CreateMap<Funcionario, LoginResponseDTO>().ReverseMap();
+
+		CreateMap<UpdateFuncionarioDTO, Funcionario>().ReverseMap();
 	}
 }

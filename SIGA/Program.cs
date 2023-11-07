@@ -21,8 +21,8 @@ LoadConfiguration(builder);
 ConfigureAuthentication(builder);
 ConfigureServices(builder);
 ConfigureMvc(builder);
-builder.Services.AutoMapperBuild();
-builder.Services.AddTransient<IContaRepository, ContaRepository>();
+
+
 
 var app = builder.Build();
 
@@ -38,9 +38,12 @@ app.Run();
 
 void ConfigureServices(WebApplicationBuilder builder)
 {
+	builder.Services.AutoMapperBuild();
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' não encontrada.");
     builder.Services.AddDbContext<SIGAAppDbContext>(options => options.UseSqlServer(connectionString));
 	builder.Services.AddTransient<TokenService>();
+	builder.Services.AddTransient<IContaRepository, ContaRepository>();
+	builder.Services.AddTransient<IRoleRepository, RoleRepository>();
 }
 
 void ConfigureMvc(WebApplicationBuilder builder)

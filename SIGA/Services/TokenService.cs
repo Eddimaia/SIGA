@@ -8,12 +8,12 @@ using SIGA.Lib.Extensions;
 namespace SIGA.API.Services;
 public class TokenService
 {
-	public string GenerateToken(Funcionario funcionario)
+	public string GenerateToken(Funcionario usuario)
 	{
 		var tokenHandler = new JwtSecurityTokenHandler();
 
 		var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
-		var claims = funcionario.GetClaims();
+		var claims = usuario.GetClaims();
 
 		var tokenDescriptor = new SecurityTokenDescriptor
 		{
