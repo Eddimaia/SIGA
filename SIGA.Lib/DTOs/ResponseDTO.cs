@@ -6,16 +6,16 @@ public class ResponseDTO<T> where T : class
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	public T? Data { get; private set; } = default;
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public List<string>? Erros { get; private set; } = default;
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+	public List<string>? Erros { get; private set; } = default;
 
-    public ResponseDTO(T data, List<string> erros)
-    {
-        Data = data;
-        Erros = erros;
-    }
+	public ResponseDTO(T data, List<string> erros)
+	{
+		Data = data;
+		Erros = erros;
+	}
 
-    public ResponseDTO(List<string> erros) => Erros = erros;
-    public ResponseDTO(T data) => Data = data;
-    public ResponseDTO(string erro) => Erros?.Add(erro);
+	public ResponseDTO(List<string> erros) => Erros = erros;
+	public ResponseDTO(T data) => Data = data;
+	public ResponseDTO(string erro) => Erros = new List<string> { erro };
 }
