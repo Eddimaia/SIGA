@@ -4,5 +4,5 @@ namespace SIGA.Repositories.Interfaces;
 
 public interface IRoleRepository : IRepository<Role>
 {
-	Task<Funcionario> GetFuncionariosByRole(int roleId);
+	Task<IEnumerable<Funcionario>> GetFuncionariosByRole(int roleId);
 }

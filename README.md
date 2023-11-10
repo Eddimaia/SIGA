@@ -1,2 +1,2 @@
-# FAcess
-Sistema de Gerenciamento de Acessos.
+# SIGA
+Sistema Inteligente de Gerenciamento de Acessos.

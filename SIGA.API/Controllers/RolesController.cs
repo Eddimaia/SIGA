@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SIGA.Lib.DTOs;
+using SIGA.Lib.DTOs.Funcionario;
 using SIGA.Lib.Extensions;
 using SIGA.Lib.Models;
 using SIGA.Repositories.Exceptions;
@@ -15,10 +17,12 @@ namespace SIGA.API.Controllers
 	public class RolesController : ControllerBase
 	{
 		private readonly IRoleRepository _roleRepository;
+		private readonly IMapper _mapper;
 
-		public RolesController(IRoleRepository roleRepository)
+		public RolesController(IRoleRepository roleRepository, IMapper mapper)
 		{
 			_roleRepository = roleRepository;
+			_mapper = mapper;
 		}
 
 		// GET: api/Roles
@@ -143,6 +147,28 @@ namespace SIGA.API.Controllers
 			catch (Exception)
 			{
 				return Problem("E01 - Falha interna no servidor");
+			}
+		}
+
+		[HttpGet("funcionarios/{id}")]
+		[Authorize]
+		public async Task<ActionResult<IEnumerable<FuncionarioDTO>>> GetFuncionariosByRoleAsync(int id)
+		{
+			try
+			{
+				var funcionarios = await _roleRepository.GetFuncionariosByRole(id);
+
+				var retorno = _mapper.Map<IEnumerable<FuncionarioDTO>>(funcionarios);
+
+				return Ok(new ResponseDTO<IEnumerable<FuncionarioDTO>>(retorno));
+			}
+			catch (DataNotFoundException ex)
+			{
+				return NotFound(new ResponseDTO<string>(ex.Message));
+			}
+			catch (Exception ex)
+			{
+				return Problem(ex.Message);
 			}
 		}
 	}
