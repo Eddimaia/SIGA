@@ -38,7 +38,7 @@ public class ContasController : ControllerBase
 
 			await _contaRepository.Save(funcionario);
 
-			return Ok(new ResponseDTO<string>("Cadastro realizado com sucesso!"));
+			return Ok(ResponseDTO<string>.ReturnSucess("Cadastro realizado com sucesso!"));
 		}
 		catch (DbUpdateException)
 		{
@@ -98,7 +98,7 @@ public class ContasController : ControllerBase
 
 			await _contaRepository.Update(funcionario);
 
-			return Ok(new ResponseDTO<string>("Atualização realizada com sucesso!"));
+			return Ok(ResponseDTO<string>.ReturnSucess("Atualização realizada com sucesso!"));
 		}
 		catch (DbUpdateException ex)
 		{
@@ -122,7 +122,7 @@ public class ContasController : ControllerBase
 		{
 			await _contaRepository.Delete(id);
 
-			return Ok(new ResponseDTO<string>("Deleção realizada com sucesso!"));
+			return Ok(ResponseDTO<string>.ReturnSucess("Deleção realizada com sucesso!"));
 		}
 		catch (DbUpdateException ex)
 		{

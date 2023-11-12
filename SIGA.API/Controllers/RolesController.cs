@@ -80,7 +80,7 @@ namespace SIGA.API.Controllers
 			{
 				await _roleRepository.Update(model);
 
-				return Ok(new ResponseDTO<string>("Atualização realizada com sucesso!"));
+				return Ok(ResponseDTO<string>.ReturnSucess("Atualização realizada com sucesso!"));
 			}
 			catch (DbUpdateException ex)
 			{
@@ -109,7 +109,7 @@ namespace SIGA.API.Controllers
 			{
 				await _roleRepository.Save(model);
 
-				return Ok(new ResponseDTO<string>("Atualização realizada com sucesso!"));
+				return Ok(ResponseDTO<string>.ReturnSucess("Role criada com sucesso!"));
 			}
 			catch (DbUpdateException ex)
 			{
@@ -134,7 +134,7 @@ namespace SIGA.API.Controllers
 			{
 				await _roleRepository.Delete(id);
 
-				return Ok(new ResponseDTO<string>("Deleção realizada com sucesso!"));
+				return Ok(ResponseDTO<string>.ReturnSucess("Deleção realizada com sucesso!"));
 			}
 			catch (DbUpdateException ex)
 			{

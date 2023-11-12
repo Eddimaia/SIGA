@@ -18,4 +18,18 @@ public class ResponseDTO<T> where T : class
 	public ResponseDTO(List<string> erros) => Erros = erros;
 	public ResponseDTO(T data) => Data = data;
 	public ResponseDTO(string erro) => Erros = new List<string> { erro };
+
+	public static SuccessResponse ReturnSucess(string message)
+	{
+		return new SuccessResponse(message);
+	}
+	public class SuccessResponse
+	{
+		public string Message { get; set; }
+
+		public SuccessResponse(string message)
+		{
+			Message = message;
+		}
+	}
 }

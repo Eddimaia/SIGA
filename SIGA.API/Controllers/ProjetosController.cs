@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SIGA.Lib.DTOs;
+using SIGA.Lib.DTOs.Projeto;
 using SIGA.Lib.Extensions;
 using SIGA.Lib.Models;
 using SIGA.Repositories.Exceptions;
@@ -14,21 +16,24 @@ namespace SIGA.API.Controllers
 	public class ProjetosController : ControllerBase
 	{
 		private readonly IProjetoRepository _projetoRepository;
+		private readonly IMapper _mapper;
 
-		public ProjetosController(IProjetoRepository projetoRepository)
+		public ProjetosController(IProjetoRepository projetoRepository, IMapper mapper)
 		{
 			_projetoRepository = projetoRepository;
+			_mapper = mapper;
 		}
 
 		// GET: api/Projetos
 		[HttpGet]
 		[Authorize]
-		public async Task<ActionResult<IEnumerable<Projeto>>> GetProjetosAsync()
+		public async Task<ActionResult<IEnumerable<ProjetoDTO>>> GetProjetosAsync()
 		{
 			try
 			{
 				var projetos = await _projetoRepository.GetAll();
-				return Ok(new ResponseDTO<IEnumerable<Projeto>>(projetos));
+				var response = _mapper.Map<IEnumerable<ProjetoDTO>>(projetos);
+				return Ok(new ResponseDTO<IEnumerable<ProjetoDTO>>(response));
 			}
 			catch (Exception ex)
 			{
@@ -39,13 +44,14 @@ namespace SIGA.API.Controllers
 		// GET: api/Projetos/5
 		[HttpGet("{id}")]
 		[Authorize]
-		public async Task<ActionResult<Projeto>> GetProjetoAsync(int id)
+		public async Task<ActionResult<ProjetoDTO>> GetProjetoAsync(int id)
 		{
 			try
 			{
 				var projeto = await _projetoRepository.GetById(id);
+				var response = _mapper.Map<ProjetoDTO>(projeto);
 
-				return Ok(new ResponseDTO<Projeto>(projeto));
+				return Ok(new ResponseDTO<ProjetoDTO>(response));
 			}
 			catch (DataNotFoundException ex)
 			{
@@ -61,7 +67,7 @@ namespace SIGA.API.Controllers
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPut("{id}")]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> PutProjetoAsync(int id, Projeto model)
+		public async Task<IActionResult> PutProjetoAsync(int id, ProjetoDTO model)
 		{
 			if (id != model.Id)
 			{
@@ -73,9 +79,10 @@ namespace SIGA.API.Controllers
 
 			try
 			{
-				await _projetoRepository.Update(model);
+				var projeto = _mapper.Map<Projeto>(model);
+				await _projetoRepository.Update(projeto);
 
-				return Ok(new ResponseDTO<string>("Atualização realizada com sucesso!"));
+				return Ok(ResponseDTO<string>.ReturnSucess("Atualização realizada com sucesso!"));
 			}
 			catch (DbUpdateException ex)
 			{
@@ -95,16 +102,17 @@ namespace SIGA.API.Controllers
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPost]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> PostProjetoAsync(Projeto model)
+		public async Task<IActionResult> PostProjetoAsync(ProjetoDTO model)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(new ResponseDTO<string>(ModelState.GetErrors()));
 
 			try
 			{
-				await _projetoRepository.Save(model);
+				var projeto = _mapper.Map<Projeto>(model);
+				await _projetoRepository.Save(projeto);
 
-				return Ok(new ResponseDTO<string>("Atualização realizada com sucesso!"));
+				return Ok(ResponseDTO<string>.ReturnSucess("Projeto criado com sucesso!"));
 			}
 			catch (DbUpdateException ex)
 			{
@@ -129,7 +137,7 @@ namespace SIGA.API.Controllers
 			{
 				await _projetoRepository.Delete(id);
 
-				return Ok(new ResponseDTO<string>("Deleção realizada com sucesso!"));
+				return Ok(ResponseDTO<string>.ReturnSucess("Deleção realizada com sucesso!"));
 			}
 			catch (DbUpdateException ex)
 			{

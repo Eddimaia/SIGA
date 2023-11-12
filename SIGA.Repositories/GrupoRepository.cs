@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SIGA.Repositories;
-internal class GrupoRepository : IGrupoRepository
+public class GrupoRepository : IGrupoRepository
 {
 	private readonly SIGAAppDbContext _context;
 
@@ -50,16 +50,21 @@ internal class GrupoRepository : IGrupoRepository
 		if (_context.Grupos is null)
 			throw new Exception("Entity set 'SIGAAppDbContext.Grupos'  is null.");
 
-		return await _context.Concessoes
+		var grupos = await _context.Grupos
 			.AsNoTracking()
-			.Include(x => x.Grupo.Equals(grupoId))
-			.ToListAsync();
+			.Include(g => g.Concessoes)
+			.Where(g => g.Id.Equals(grupoId))
+			.FirstOrDefaultAsync();
+
+		return grupos.Concessoes;
 	}
 
 	public async Task Save(Grupo entity)
 	{
 		if (_context.Grupos is null)
 			throw new Exception("Entity set 'SIGAAppDbContext.Grupos'  is null.");
+
+		entity.UF = entity.UF.ToUpperInvariant();
 
 		_context.Grupos.Add(entity);
 		await _context.SaveChangesAsync();

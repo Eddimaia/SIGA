@@ -11,6 +11,7 @@ using System.Text;
 using SIGA.Repositories.Interfaces;
 using SIGA.Repositories.Data;
 using SIGA.Repositories;
+using SIGA.API.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,7 @@ void ConfigureServices(WebApplicationBuilder builder)
 	builder.Services.AddTransient<IContaRepository, ContaRepository>();
 	builder.Services.AddTransient<IRoleRepository, RoleRepository>();
 	builder.Services.AddTransient<IProjetoRepository, ProjetoRepository>();
+	builder.Services.AddTransient<IGrupoRepository, GrupoRepository>();
 }
 
 void ConfigureMvc(WebApplicationBuilder builder)

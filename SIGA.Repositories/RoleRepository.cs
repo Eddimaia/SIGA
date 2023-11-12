@@ -45,14 +45,16 @@ public class RoleRepository : IRoleRepository
 
 	public async Task<IEnumerable<Funcionario>> GetFuncionariosByRole(int roleId)
 	{
-		throw new NotImplementedException();
+		//throw new NotImplementedException();
 		if (_context.Roles is null)
 			throw new Exception("Entity set 'SIGAAppDbContext.Roles'  is null.");
 
-		return await _context.Funcionarios
+		var roles = await _context.Roles
 			.AsNoTracking()
-			.Include(f => f.Roles)
-			.ToListAsync();
+			.Include(r => r.Funcionarios)
+			.Where(r => r.Id.Equals(roleId))
+			.FirstOrDefaultAsync();
+		return roles.Funcionarios;
 	}
 
 	public async Task Save(Role entity)
