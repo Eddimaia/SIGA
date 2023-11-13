@@ -8,7 +8,13 @@ public class Acesso : ModelBase
     public string Senha { get; set;} = string.Empty;
     public bool Expiracao { get; set; } = false;
     public DateTime? DataExpiracao { get; set; }
-    public ETipoAcesso TipoAcesso { get; set; }
+    public ETipoAcesso? TipoAcesso { get; set; }
+	public bool Autenticacao { get; set; } = false;
+	public ETipoAutenticacaoAcesso? TipoAutenticacaoAcesso { get; set; }
+	public bool UnicoAcesso { get; set; } = false;
+	public bool AcessoSimultaneo { get; set; } = false;
+	public byte QtdMaximaAcessoSimultaneo { get; set; } = 1;
+	public bool BlAtivo { get; set; } = true;
 
 	[JsonIgnore]
 	public VPN VPN { get; set; } = new();

@@ -1,5 +1,5 @@
 ﻿namespace SIGA.Lib.Enums;
-public enum ETipoAcesso
+public enum ETipoAcesso : byte
 {
     BancoDeDados = 1,
     Servidor = 2,

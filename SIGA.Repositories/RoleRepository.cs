@@ -9,83 +9,75 @@ namespace SIGA.Repositories;
 
 public class RoleRepository : IRoleRepository
 {
-	private readonly SIGAAppDbContext _context;
+    private readonly SIGAAppDbContext _context;
 
-	public RoleRepository(SIGAAppDbContext context)
-	{
-		_context = context;
-	}
+    public RoleRepository(SIGAAppDbContext context)
+    {
+        _context = context;
+        CheckDbSet();
+    }
 
-	public async Task Delete(int id)
-	{
-		if (_context.Roles is null)
-			throw new Exception("Entity set 'SIGAAppDbContext.Roles'  is null.");
+    private void CheckDbSet()
+    {
+        if ( _context.Roles is null )
+            throw new Exception("Entity set 'SIGAAppDbContext.Roles'  is null.");
+    }
 
-		var role = await _context.Roles.FindAsync(id) ?? throw new DataNotFoundException("Role não encontrada");
+    public async Task Delete(int id)
+    {
+        var role = await _context.Roles.FindAsync(id) ?? throw new DataNotFoundException("Role não encontrada");
 
-		_context.Roles.Remove(role);
-		await _context.SaveChangesAsync();
-	}
+        _context.Roles.Remove(role);
+        await _context.SaveChangesAsync();
+    }
 
-	public async Task<IEnumerable<Role>> GetAll()
-	{
-		if (_context.Roles is null)
-			throw new Exception("Entity set 'SIGAAppDbContext.Roles'  is null.");
+    public async Task<IEnumerable<Role>> GetAll()
+    {
+        return await _context.Roles.AsNoTracking().ToListAsync();
+    }
 
-		return await _context.Roles.AsNoTracking().ToListAsync();
-	}
+    public async Task<Role> GetById(int id)
+    {
+        return await _context.Roles.FindAsync(id) ?? throw new DataNotFoundException("Role não encontrada");
+    }
 
-	public async Task<Role> GetById(int id)
-	{
-		if (_context.Roles is null)
-			throw new Exception("Entity set 'SIGAAppDbContext.Roles'  is null.");
+    public async Task<IEnumerable<Funcionario>> GetFuncionariosByRole(int roleId)
+    {
+        var role = await _context.Roles
+            .AsNoTracking()
+            .Include(r => r.Funcionarios)
+            .Where(r => r.Id.Equals(roleId))
+            .FirstOrDefaultAsync();
 
-		return await _context.Roles.FindAsync(id) ?? throw new DataNotFoundException("Role não encontrada");
-	}
+        return role is null ? throw new DataNotFoundException("Role não encontrada") : (IEnumerable<Funcionario>)role.Funcionarios;
+    }
 
-	public async Task<IEnumerable<Funcionario>> GetFuncionariosByRole(int roleId)
-	{
-		//throw new NotImplementedException();
-		if (_context.Roles is null)
-			throw new Exception("Entity set 'SIGAAppDbContext.Roles'  is null.");
+    public async Task Save(Role entity)
+    {
 
-		var roles = await _context.Roles
-			.AsNoTracking()
-			.Include(r => r.Funcionarios)
-			.Where(r => r.Id.Equals(roleId))
-			.FirstOrDefaultAsync();
-		return roles.Funcionarios;
-	}
+        _context.Roles.Add(entity);
+        await _context.SaveChangesAsync();
+    }
 
-	public async Task Save(Role entity)
-	{
+    public async Task Update(Role entity)
+    {
+        _context.Entry(entity).State = EntityState.Modified;
 
-		if (_context.Roles is null)
-			throw new Exception("Entity set 'SIGAAppDbContext.Roles'  is null.");
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch ( DbUpdateConcurrencyException )
+        {
+            if ( !RoleExists(entity.Id) )
+                throw new DataNotFoundException("Role não encontrada");
+            else
+                throw;
+        }
+    }
 
-		_context.Roles.Add(entity);
-		await _context.SaveChangesAsync();
-	}
-
-	public async Task Update(Role entity)
-	{
-		_context.Entry(entity).State = EntityState.Modified;
-
-		try
-		{
-			await _context.SaveChangesAsync();
-		}
-		catch (DbUpdateConcurrencyException)
-		{
-			if (!RoleExists(entity.Id))
-				throw new DataNotFoundException("Role não encontrada");
-			else
-				throw;
-		}
-	}
-
-	private bool RoleExists(int id)
-	{
-		return (_context.Roles?.Any(e => e.Id == id)).GetValueOrDefault();
-	}
+    private bool RoleExists(int id)
+    {
+        return (_context.Roles?.Any(e => e.Id == id)).GetValueOrDefault();
+    }
 }
