@@ -54,8 +54,8 @@ public class ClientVPNMapper : IEntityTypeConfiguration<ClientVPN>
 		builder
 			.HasOne(x => x.VPN)
 			.WithOne(x => x.ClientVPN)
-			.HasForeignKey<VPN>("ClientVPNId")
-			.HasConstraintName("FK_VPN_ClientId")
+			.HasForeignKey<ClientVPN>("VPNId")
+			.HasConstraintName("FK_ClientVPN_VPNId")
 			.OnDelete(DeleteBehavior.Cascade);
 
 		builder

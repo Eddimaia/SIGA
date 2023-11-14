@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using SIGA.Lib.Enums;
+using System.Text.Json.Serialization;
 
 namespace SIGA.Lib.Models;
 public class VPN : ModelBase
@@ -7,7 +8,9 @@ public class VPN : ModelBase
     public string Host { get; set; } = string.Empty;
     public short Port { get; set; }
     public string Descricao { get; set; } = string.Empty;
-    public bool AcessoForaDoServidor { get; set; } = false;
+
+	[JsonIgnore]
+	public EmpresaVPN EmpresaVPN { get; set; } = new();
 
 	[JsonIgnore]
 	public ClientVPN ClientVPN { get; set; } = new();

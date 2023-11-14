@@ -16,6 +16,8 @@ public class SIGAAppDbContext : DbContext
 	public DbSet<Projeto> Projetos { get; set; }
 	public DbSet<Role> Roles { get; set; }
 	public DbSet<VPN> VPNs { get; set; }
+	public DbSet<TipoAcesso> TipoAcessos { get; set; }
+	public DbSet<EmpresaVPN> EmpresasVPNs { get; set; }
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfiguration(new AcessoMapper());
@@ -27,5 +29,7 @@ public class SIGAAppDbContext : DbContext
 		modelBuilder.ApplyConfiguration(new ProjetoMapper());
 		modelBuilder.ApplyConfiguration(new RoleMapper());
 		modelBuilder.ApplyConfiguration(new VPNMapper());
-	}
+        modelBuilder.ApplyConfiguration(new TipoAcessoMapper());
+        modelBuilder.ApplyConfiguration(new EmpresaVPNMapper());
+    }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIGA.Repositories.Data;
 
@@ -11,9 +12,11 @@ using SIGA.Repositories.Data;
 namespace SIGA.API.Migrations
 {
     [DbContext(typeof(SIGAAppDbContext))]
-    partial class SIGAAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231113210543_v1.1.0")]
+    partial class v110
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,9 +231,6 @@ namespace SIGA.API.Migrations
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Observacao");
 
-                    b.Property<int>("VPNId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Versao")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -238,9 +238,6 @@ namespace SIGA.API.Migrations
                         .HasColumnName("Versao");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("VPNId")
-                        .IsUnique();
 
                     b.ToTable("ClientVPN", (string)null);
                 });
@@ -545,7 +542,7 @@ namespace SIGA.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ConcessaoId")
+                    b.Property<int>("ConcessaoVPNId")
                         .HasColumnType("int");
 
                     b.Property<string>("Descricao")
@@ -573,11 +570,17 @@ namespace SIGA.API.Migrations
                         .HasColumnType("SMALLINT")
                         .HasColumnName("Port");
 
+                    b.Property<int>("VPNId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ConcessaoId");
+                    b.HasIndex("ConcessaoVPNId");
 
                     b.HasIndex("EmpresaVPNId");
+
+                    b.HasIndex("VPNId")
+                        .IsUnique();
 
                     b.ToTable("VPN", (string)null);
                 });
@@ -697,18 +700,6 @@ namespace SIGA.API.Migrations
                     b.Navigation("ClientVPN");
                 });
 
-            modelBuilder.Entity("SIGA.Lib.Models.ClientVPN", b =>
-                {
-                    b.HasOne("SIGA.Lib.Models.VPN", "VPN")
-                        .WithOne("ClientVPN")
-                        .HasForeignKey("SIGA.Lib.Models.ClientVPN", "VPNId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_ClientVPN_VPNId");
-
-                    b.Navigation("VPN");
-                });
-
             modelBuilder.Entity("SIGA.Lib.Models.Concessao", b =>
                 {
                     b.HasOne("SIGA.Lib.Models.Grupo", "Grupo")
@@ -725,7 +716,7 @@ namespace SIGA.API.Migrations
                 {
                     b.HasOne("SIGA.Lib.Models.Concessao", "Concessao")
                         .WithMany("VPNs")
-                        .HasForeignKey("ConcessaoId")
+                        .HasForeignKey("ConcessaoVPNId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("Fk_VPN_ConcessaoVPNId");
@@ -737,6 +728,15 @@ namespace SIGA.API.Migrations
                         .IsRequired()
                         .HasConstraintName("Fk_VPN_EmpresaVPNId");
 
+                    b.HasOne("SIGA.Lib.Models.ClientVPN", "ClientVPN")
+                        .WithOne("VPN")
+                        .HasForeignKey("SIGA.Lib.Models.VPN", "VPNId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ClientVPN_VPNId");
+
+                    b.Navigation("ClientVPN");
+
                     b.Navigation("Concessao");
 
                     b.Navigation("EmpresaVPN");
@@ -745,6 +745,9 @@ namespace SIGA.API.Migrations
             modelBuilder.Entity("SIGA.Lib.Models.ClientVPN", b =>
                 {
                     b.Navigation("AnexosInstalacao");
+
+                    b.Navigation("VPN")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SIGA.Lib.Models.Concessao", b =>
@@ -780,9 +783,6 @@ namespace SIGA.API.Migrations
             modelBuilder.Entity("SIGA.Lib.Models.VPN", b =>
                 {
                     b.Navigation("Acessos");
-
-                    b.Navigation("ClientVPN")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

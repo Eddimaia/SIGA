@@ -40,21 +40,24 @@ public class VPNMapper : IEntityTypeConfiguration<VPN>
 			.HasColumnType("VARCHAR")
 			.HasMaxLength(1000);
 
-		builder
-			.Property(x => x.AcessoForaDoServidor)
-			.HasDefaultValue(false)
-			.HasColumnName("AcessoForaDoServidor")
-			.HasColumnType("BIT");
+        builder
+            .HasOne(x => x.EmpresaVPN)
+            .WithMany(x => x.VPNs)
+			.HasForeignKey("EmpresaVPNId")
+			.HasConstraintName("Fk_VPN_EmpresaVPNId")
+            .OnDelete(DeleteBehavior.Cascade);
 
-		builder
+        builder
 			.HasOne(x => x.ClientVPN)
 			.WithOne(x => x.VPN)
-			.OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade);
 
 		builder
 			.HasOne(x => x.Concessao)
 			.WithMany(x => x.VPNs)
-			.OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey("ConcessaoId")
+            .HasConstraintName("Fk_VPN_ConcessaoVPNId")
+            .OnDelete(DeleteBehavior.Cascade);
 
 		builder
 			.HasMany(x => x.Acessos)

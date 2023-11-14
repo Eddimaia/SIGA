@@ -12,9 +12,9 @@ public class AcessoMapper : IEntityTypeConfiguration<Acesso>
 			.HasKey(x => x.Id);
 
 		builder
-		.Property(x => x.Id)
-		.ValueGeneratedOnAdd()
-		.UseIdentityColumn();
+			.Property(x => x.Id)
+			.ValueGeneratedOnAdd()
+			.UseIdentityColumn();
 
 		builder
 			.Property(x => x.Login)
@@ -33,7 +33,7 @@ public class AcessoMapper : IEntityTypeConfiguration<Acesso>
 		builder
 		.HasOne(x => x.Projeto)
 		.WithMany(x => x.Acessos)
-		.HasConstraintName("FK_Projeto_AcessoId")
+		.HasConstraintName("FK_Acesso_ProjetoId")
 		.OnDelete(DeleteBehavior.Cascade);
 
 		builder
@@ -54,21 +54,33 @@ public class AcessoMapper : IEntityTypeConfiguration<Acesso>
 				.HasConstraintName("FK_FuncionarioAcesso_AcessoId")
 				.OnDelete(DeleteBehavior.Cascade));
 
-		builder
-			.Property(x => x.TipoAcesso)
-			.IsRequired()
-			.HasColumnName("TipoAcesso")
-			.HasColumnType("TINYINT");
+		//builder
+		//	.Property(x => x.TipoAcesso)
+		//	.IsRequired()
+		//	.HasColumnName("TipoAcesso")
+		//	.HasColumnType("TINYINT");
 
 		builder
+			.HasOne(x => x.TipoAcesso)
+			.WithMany(x => x.Acessos)
+			.HasForeignKey("TipoAcessoId")
+			.HasConstraintName("FK_Acesso_TipoAcessoId");
+
+        builder
+            .HasOne(x => x.TipoAutenticacaoAcesso)
+            .WithMany(x => x.Acessos)
+            .HasForeignKey("TipoAutenticacaoAcessoId")
+            .HasConstraintName("FK_Acesso_TipoAutenticacaoAcessoId");
+
+        builder
 			.HasOne(x => x.VPN)
 			.WithMany(x => x.Acessos)
-			.HasConstraintName("FK_VPN_AcessoId")
+			.HasConstraintName("FK_Acesso_VPNId")
 			.OnDelete(DeleteBehavior.Cascade);
 
 		builder
 			.Property(x => x.Expiracao)
-			.HasDefaultValue(true)
+			.HasDefaultValue(false)
 			.HasColumnName("Expiracao")
 			.HasColumnType("BIT");
 
@@ -76,5 +88,41 @@ public class AcessoMapper : IEntityTypeConfiguration<Acesso>
 			.Property(x => x.DataExpiracao)
 			.HasColumnName("DataExpiracao")
 			.HasColumnType("DATETIME2");
-	}
+
+		builder
+			.Property(x => x.Autenticacao)
+			.HasDefaultValue(false)
+			.HasColumnName("Autenticacao")
+			.HasColumnType("BIT");
+
+        builder
+            .Property(x => x.AcessoSimultaneo)
+            .HasDefaultValue(false)
+            .HasColumnName("AcessoSimultaneo")
+            .HasColumnType("BIT");
+
+        builder
+            .Property(x => x.AcessoForaDoServidor)
+            .HasDefaultValue(false)
+            .HasColumnName("AcessoForaDoServidor")
+            .HasColumnType("BIT");
+
+        builder
+            .Property(x => x.QtdMaximaAcessoSimultaneo)
+            .HasDefaultValue(false)
+            .HasColumnName("QtdMaximaAcessoSimultaneo")
+            .HasColumnType("TINYINT");
+
+        builder
+            .Property(x => x.BlAtivo)
+            .HasDefaultValue(true)
+            .HasColumnName("BlAtivo")
+            .HasColumnType("BIT");
+
+        builder
+            .Property(x => x.BlAtivo)
+            .HasDefaultValue(true)
+            .HasColumnName("BlAtivo")
+            .HasColumnType("BIT");
+    }
 }
