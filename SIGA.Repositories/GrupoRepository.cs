@@ -1,13 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SIGA.Lib.Models;
-using SIGA.Repositories.Data;
+using SIGA.Domain.Entities;
+using SIGA.Infra.Data;
 using SIGA.Repositories.Exceptions;
 using SIGA.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SIGA.Repositories;
 public class GrupoRepository : IGrupoRepository

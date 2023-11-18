@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
 using SIGA.API.Services;
-using SIGA.Lib.DTOs;
-using SIGA.Lib.DTOs.Funcionario;
-using SIGA.Lib.Extensions;
-using SIGA.Lib.Models;
-using SIGA.Repositories.Exceptions;
+using SIGA.Domain.DTOs;
+using SIGA.Domain.Entities;
+using SIGA.Domain.Extensions;
 using SIGA.Repositories.Interfaces;
 
 namespace SIGA.API.Controllers;
@@ -17,32 +16,34 @@ namespace SIGA.API.Controllers;
 [ApiController]
 public class ContasController : ControllerBase
 {
-	private readonly IContaRepository _contaRepository;
-	private readonly IMapper _mapper;
+	private readonly SignInManager<ApplicationUser> _signInManager;
+	private readonly UserManager<ApplicationUser> _userManager;
 
-	public ContasController(IContaRepository contaRepository, IMapper mapper)
+	public ContasController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
 	{
-		_contaRepository = contaRepository;
-		_mapper = mapper;
+		_signInManager = signInManager;
+		_userManager = userManager;
 	}
 
-	[HttpPost]
-	public async Task<IActionResult> PostContaAsync(RegistroContaDTO model)
+	[HttpPost("registrar")]
+	[AllowAnonymous]
+	public async Task<IActionResult> PostContaAsync([FromBody] Usuario model)
 	{
 		if (!ModelState.IsValid)
 			return BadRequest(new ResponseDTO<string>(ModelState.GetErrors()));
 
+
+
 		try
 		{
-			var funcionario = _mapper.Map<Funcionario>(model);
+			var appUser = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
-			await _contaRepository.Save(funcionario);
+			var result = await _userManager.CreateAsync(appUser, model.Senha);
 
 			return Ok(ResponseDTO<string>.ReturnSucess("Cadastro realizado com sucesso!"));
 		}
 		catch (DbUpdateException)
 		{
-
 			return Conflict(new ResponseDTO<string>("E02 - Este E-mail já está cadastrado"));
 		}
 		catch (Exception)
@@ -52,27 +53,33 @@ public class ContasController : ControllerBase
 	}
 
 	[HttpPost("login")]
-	public async Task<IActionResult> LoginAsync(LoginDTO model,TokenService tokenService)
+	[AllowAnonymous]
+	public async Task<ActionResult<UsuarioToken>> LoginAsync([FromBody] Usuario model, TokenService tokenService)
 	{
 		if (!ModelState.IsValid)
 			return BadRequest(new ResponseDTO<string>(ModelState.GetErrors()));
 
 		try
 		{
-			var funcionario = await _contaRepository.GetByLogin(model.Login);
+			//var funcionario = await _contaRepository.GetByLogin(model.Login);
 
-			if (funcionario is null)
-				return BadRequest(new ResponseDTO<string>("E02 - Usuário ou Senha inválidos"));
+			//if (funcionario is null)
+			//	return BadRequest(new ResponseDTO<string>("E02 - Usuário ou Senha inválidos"));
 
-			if (!PasswordHasher.Verify(funcionario.PasswordHash, model.Password))
-				return BadRequest(new ResponseDTO<string>("E02 - Usuário ou Senha inválidos"));
+			//if (!PasswordHasher.Verify(funcionario.PasswordHash, model.Password))
+			//	return BadRequest(new ResponseDTO<string>("E02 - Usuário ou Senha inválidos"));
 
-			var token = tokenService.GenerateToken(funcionario);
+			//var token = tokenService.GenerateToken(funcionario);
 
-			var funcionarioDto = _mapper.Map<LoginResponseDTO>(funcionario);
-			funcionarioDto.Token = token;
+			//var funcionarioDto = _mapper.Map<LoginResponseDTO>(funcionario);
+			//funcionarioDto.Token = token;
 
-			return Ok(new ResponseDTO<LoginResponseDTO>(funcionarioDto));
+			var result = await _signInManager.PasswordSignInAsync(model.Email, model.Senha, isPersistent: false, lockoutOnFailure: false);
+
+			if (result.Succeeded)
+				return Ok(new ResponseDTO<UsuarioToken>(tokenService.GenerateToken(model)));
+			else
+				return BadRequest();
 		}
 		catch
 		{

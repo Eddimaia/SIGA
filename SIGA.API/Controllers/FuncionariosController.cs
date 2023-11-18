@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SIGA.Lib.DTOs.Funcionario;
-using SIGA.Lib.DTOs;
-using SIGA.Lib.Models;
+using SIGA.Domain.DTOs.Funcionario;
+using SIGA.Domain.DTOs;
 using SIGA.Repositories.Exceptions;
 using AutoMapper;
 using SIGA.Repositories.Interfaces;
-using SIGA.Lib.Extensions;
+using SIGA.Domain.Extensions;
+using SIGA.Domain.Entities;
 
 namespace SIGA.API.Controllers;
 [Route("api/[controller]")]

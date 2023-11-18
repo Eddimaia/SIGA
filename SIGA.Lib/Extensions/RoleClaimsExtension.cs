@@ -1,16 +1,19 @@
-﻿using SIGA.Lib.Models;
+﻿using SIGA.Domain.Entities;
 using System.Security.Claims;
 
-namespace SIGA.Lib.Extensions;
+namespace SIGA.Domain.Extensions;
 public static class RoleClaimsExtension
 {
-	public static IEnumerable<Claim> GetClaims(this Funcionario funciorario)
+	public static IEnumerable<Claim> GetClaims(this Usuario funciorario)
 	{
 		var result = new List<Claim>()
 		{
-			new Claim(ClaimTypes.Name, funciorario.Login)
+			new(ClaimTypes.Name, funciorario.Email)
 		};
-		result.AddRange(funciorario.Roles.Select(role => new Claim(ClaimTypes.Role, role.Nome)));
+
+
+
+		//result.AddRange(funciorario.Squads.Select(role => new Claim(ClaimTypes.Role, role.Nome)));
 		return result;
 	}
 }

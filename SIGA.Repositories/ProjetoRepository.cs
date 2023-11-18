@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SIGA.Lib.Models;
-using SIGA.Repositories.Data;
+using SIGA.Domain.Entities;
+using SIGA.Infra.Data;
 using SIGA.Repositories.Exceptions;
 using SIGA.Repositories.Interfaces;
 

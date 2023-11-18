@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SIGA.Lib.DTOs;
-using SIGA.Lib.DTOs.Projeto;
-using SIGA.Lib.Extensions;
-using SIGA.Lib.Models;
+using SIGA.Domain.DTOs;
+using SIGA.Domain.DTOs.Projeto;
+using SIGA.Domain.Entities;
+using SIGA.Domain.Extensions;
 using SIGA.Repositories.Exceptions;
 using SIGA.Repositories.Interfaces;
 

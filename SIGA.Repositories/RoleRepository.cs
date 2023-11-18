@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SIGA.Repositories.Data;
+using SIGA.Infra.Data;
 using SIGA.Repositories.Exceptions;
 using SIGA.Repositories.Interfaces;
-using SIGA.Lib.Models;
 using System.Collections.Generic;
+using SIGA.Domain.Entities;
 
 namespace SIGA.Repositories;
 
@@ -19,31 +19,31 @@ public class RoleRepository : IRoleRepository
 
     private void CheckDbSet()
     {
-        if ( _context.Roles is null )
+        if ( _context.Squads is null )
             throw new Exception("Entity set 'SIGAAppDbContext.Roles'  is null.");
     }
 
     public async Task Delete(int id)
     {
-        var role = await _context.Roles.FindAsync(id) ?? throw new DataNotFoundException("Role não encontrada");
+        var role = await _context.Squads.FindAsync(id) ?? throw new DataNotFoundException("Role não encontrada");
 
-        _context.Roles.Remove(role);
+        _context.Squads.Remove(role);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Role>> GetAll()
+    public async Task<IEnumerable<Squad>> GetAll()
     {
-        return await _context.Roles.AsNoTracking().ToListAsync();
+        return await _context.Squads.AsNoTracking().ToListAsync();
     }
 
-    public async Task<Role> GetById(int id)
+    public async Task<Squad> GetById(int id)
     {
-        return await _context.Roles.FindAsync(id) ?? throw new DataNotFoundException("Role não encontrada");
+        return await _context.Squads.FindAsync(id) ?? throw new DataNotFoundException("Role não encontrada");
     }
 
     public async Task<IEnumerable<Funcionario>> GetFuncionariosByRole(int roleId)
     {
-        var role = await _context.Roles
+        var role = await _context.Squads
             .AsNoTracking()
             .Include(r => r.Funcionarios)
             .Where(r => r.Id.Equals(roleId))
@@ -52,14 +52,14 @@ public class RoleRepository : IRoleRepository
         return role is null ? throw new DataNotFoundException("Role não encontrada") : (IEnumerable<Funcionario>)role.Funcionarios;
     }
 
-    public async Task Save(Role entity)
+    public async Task Save(Squad entity)
     {
 
-        _context.Roles.Add(entity);
+        _context.Squads.Add(entity);
         await _context.SaveChangesAsync();
     }
 
-    public async Task Update(Role entity)
+    public async Task Update(Squad entity)
     {
         _context.Entry(entity).State = EntityState.Modified;
 
@@ -78,6 +78,6 @@ public class RoleRepository : IRoleRepository
 
     private bool RoleExists(int id)
     {
-        return (_context.Roles?.Any(e => e.Id == id)).GetValueOrDefault();
+        return (_context.Squads?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }

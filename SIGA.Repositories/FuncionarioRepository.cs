@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SIGA.Repositories.Data;
+using SIGA.Infra.Data;
 using SIGA.Repositories.Exceptions;
 using SIGA.Repositories.Interfaces;
-using SIGA.Lib.Models;
 using NuGet.Packaging;
+using SIGA.Domain.Entities;
 
 namespace SIGA.Repositories;
 
@@ -76,14 +76,14 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
         return funcionario == null ? throw new DataNotFoundException("Funcionário não encontrado") : (IEnumerable<Projeto>)funcionario.Projetos;
     }
 
-    public async Task<IEnumerable<Role>> GetRolesByFuncionario(int funcionarioId)
+    public async Task<IEnumerable<Squad>> GetRolesByFuncionario(int funcionarioId)
     {
         var funcionario = await _context.Funcionarios
-            .Include(f => f.Roles)
+            .Include(f => f.Squads)
             .Where(f => f.Id.Equals(funcionarioId))
             .FirstOrDefaultAsync();
 
-        return funcionario == null ? throw new DataNotFoundException("Funcionário não encontrado") : (IEnumerable<Role>)funcionario.Roles;
+        return funcionario == null ? throw new DataNotFoundException("Funcionário não encontrado") : (IEnumerable<Squad>)funcionario.Squads;
     }
 
     public async Task Save(Funcionario entity)
@@ -102,7 +102,7 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
         entry.Property(x => x.Login).IsModified = false;
         entry.Property(x => x.Acessos).IsModified = false;
         entry.Property(x => x.Projetos).IsModified = false;
-        entry.Property(x => x.Roles).IsModified = false;
+        entry.Property(x => x.Squads).IsModified = false;
 
         try
         {
@@ -128,7 +128,7 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
         entry.Property(x => x.Email).IsModified = false;
         entry.Property(x => x.Sobrenome).IsModified = false;
 
-        entry.Property(x => x.Roles).IsModified = false;
+        entry.Property(x => x.Squads).IsModified = false;
         entry.Property(x => x.Acessos).IsModified = false;
         entry.Property(x => x.Projetos).IsModified = false;
 
@@ -148,12 +148,12 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
     public async Task AddRolesFuncionario(IEnumerable<int> rolesIds, int funcionarioId)
     {
 
-        var roles = await _context.Roles.Where(x => rolesIds.Contains(x.Id)).ToListAsync();
+        var roles = await _context.Squads.Where(x => rolesIds.Contains(x.Id)).ToListAsync();
 
 
         var funcionario = await GetById(funcionarioId);
 
-        funcionario.Roles.AddRange(roles);
+        funcionario.Squads.AddRange(roles);
 
         try
         {
@@ -219,13 +219,13 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
     public async Task RemoveRolesFuncionario(IEnumerable<int> rolesIds, int funcionarioId)
     {
 
-        var roles = await _context.Roles.Where(x => rolesIds.Contains(x.Id)).ToListAsync();
+        var roles = await _context.Squads.Where(x => rolesIds.Contains(x.Id)).ToListAsync();
 
 
         var funcionario = await GetById(funcionarioId);
 
         foreach ( var role in roles )
-            funcionario.Roles.Remove(role);
+            funcionario.Squads.Remove(role);
 
         try
         {

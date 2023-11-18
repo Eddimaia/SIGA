@@ -1,4 +1,4 @@
-﻿using SIGA.Lib.Models;
+﻿using SIGA.Domain.Entities;
 
 namespace SIGA.Repositories.Interfaces;
 public interface IProjetoRepository : IRepository<Projeto>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace SIGA.Lib.Extensions;
+namespace SIGA.Domain.Extensions;
 public static class ModelStateExtension
 {
     public static List<string> GetErrors(this ModelStateDictionary modelstate)
