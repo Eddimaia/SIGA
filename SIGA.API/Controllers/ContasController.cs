@@ -76,7 +76,7 @@ public class ContasController : ControllerBase
             var result = await _signInManager.PasswordSignInAsync(model.Login, model.Senha, isPersistent: false, lockoutOnFailure: false);
 
             if ( result.Succeeded )
-                return Ok(new ResponseDTO<UsuarioToken>(tokenService.GenerateToken(User)));
+                return Ok(new ResponseDTO<UsuarioToken>(tokenService.GenerateToken(model)));
             else
                 return BadRequest();
         }
