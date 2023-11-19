@@ -25,5 +25,5 @@ public class FuncionarioDTO : ModelBase
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
 	public List<Acesso>? Acessos { get; set; } = default;
 	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-	public List<Squad>? Roles { get; set; } = default;
+	public List<Role>? Roles { get; set; } = default;
 }

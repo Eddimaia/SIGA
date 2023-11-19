@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIGA.Infra.Data;
 
@@ -11,9 +12,11 @@ using SIGA.Infra.Data;
 namespace SIGA.Infra.Migrations
 {
     [DbContext(typeof(SIGAAppDbContext))]
-    partial class SIGAAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231118222204_v2.1.6.0")]
+    partial class v2160
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,6 +79,11 @@ namespace SIGA.Infra.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -93,19 +101,9 @@ namespace SIGA.Infra.Migrations
 
                     b.ToTable("AspNetRoles", (string)null);
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            Name = "Funcionario",
-                            NormalizedName = "FUNCIONARIO"
-                        });
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -559,7 +557,8 @@ namespace SIGA.Infra.Migrations
 
                     b.HasIndex("EquipeId");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioId")
+                        .IsUnique();
 
                     b.ToTable("Funcionario", (string)null);
                 });
@@ -739,6 +738,25 @@ namespace SIGA.Infra.Migrations
                     b.HasIndex("EmpresaVPNId");
 
                     b.ToTable("VPN", (string)null);
+                });
+
+            modelBuilder.Entity("SIGA.Domain.Entities.Role", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.HasDiscriminator().HasValue("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Name = "Funcionario"
+                        });
                 });
 
             modelBuilder.Entity("ConcessaoProjeto", b =>
@@ -924,10 +942,11 @@ namespace SIGA.Infra.Migrations
                         .HasConstraintName("FK_Funcionario_EquipeId");
 
                     b.HasOne("SIGA.Domain.Entities.ApplicationUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .WithOne("Funcionario")
+                        .HasForeignKey("SIGA.Domain.Entities.Funcionario", "UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Funcionario_UsuarioId");
 
                     b.Navigation("Equipe");
 
@@ -953,6 +972,12 @@ namespace SIGA.Infra.Migrations
                     b.Navigation("Concessao");
 
                     b.Navigation("EmpresaVPN");
+                });
+
+            modelBuilder.Entity("SIGA.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Funcionario")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SIGA.Domain.Entities.ClientVPN", b =>

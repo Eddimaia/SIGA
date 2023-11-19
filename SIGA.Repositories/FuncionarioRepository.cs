@@ -59,10 +59,11 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
     }
     public async Task<Funcionario> GetByLogin(string login)
     {
-        var funcionario = await _context.Funcionarios
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Login.ToLower().Equals(login.ToLower())) ?? throw new DataNotFoundException("Funcionário não encontrado");
-        return funcionario;
+        throw new NotImplementedException();
+        //var funcionario = await _context.Funcionarios
+        //    .AsNoTracking()
+        //    .FirstOrDefaultAsync(x => x.Login.ToLower().Equals(login.ToLower())) ?? throw new DataNotFoundException("Funcionário não encontrado");
+        //return funcionario;
     }
 
     public async Task<IEnumerable<Projeto>> GetProjetosByFuncionario(int funcionarioId)
@@ -76,14 +77,15 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
         return funcionario == null ? throw new DataNotFoundException("Funcionário não encontrado") : (IEnumerable<Projeto>)funcionario.Projetos;
     }
 
-    public async Task<IEnumerable<Squad>> GetRolesByFuncionario(int funcionarioId)
+    public async Task<IEnumerable<Role>> GetRolesByFuncionario(int funcionarioId)
     {
+        throw new NotImplementedException();
         var funcionario = await _context.Funcionarios
-            .Include(f => f.Squads)
+            //.Include(f => f.Squads)
             .Where(f => f.Id.Equals(funcionarioId))
             .FirstOrDefaultAsync();
 
-        return funcionario == null ? throw new DataNotFoundException("Funcionário não encontrado") : (IEnumerable<Squad>)funcionario.Squads;
+        //return funcionario == null ? throw new DataNotFoundException("Funcionário não encontrado") : (IEnumerable<Role>)funcionario.Squads;
     }
 
     public async Task Save(Funcionario entity)
@@ -98,11 +100,11 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
 
         entry.State = EntityState.Modified;
 
-        entry.Property(x => x.PasswordHash).IsModified = false;
-        entry.Property(x => x.Login).IsModified = false;
+        //entry.Property(x => x.PasswordHash).IsModified = false;
+        //entry.Property(x => x.Login).IsModified = false;
         entry.Property(x => x.Acessos).IsModified = false;
         entry.Property(x => x.Projetos).IsModified = false;
-        entry.Property(x => x.Squads).IsModified = false;
+        //entry.Property(x => x.Squads).IsModified = false;
 
         try
         {
@@ -123,12 +125,12 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
 
         entry.State = EntityState.Modified;
 
-        entry.Property(x => x.Login).IsModified = false;
+        //entry.Property(x => x.Login).IsModified = false;
         entry.Property(x => x.Nome).IsModified = false;
-        entry.Property(x => x.Email).IsModified = false;
+        //entry.Property(x => x.Email).IsModified = false;
         entry.Property(x => x.Sobrenome).IsModified = false;
 
-        entry.Property(x => x.Squads).IsModified = false;
+        //entry.Property(x => x.Squads).IsModified = false;
         entry.Property(x => x.Acessos).IsModified = false;
         entry.Property(x => x.Projetos).IsModified = false;
 
@@ -147,13 +149,13 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
 
     public async Task AddRolesFuncionario(IEnumerable<int> rolesIds, int funcionarioId)
     {
-
-        var roles = await _context.Squads.Where(x => rolesIds.Contains(x.Id)).ToListAsync();
+        throw new NotImplementedException();
+        //var roles = await _context.Roles.Where(x => rolesIds.Contains(x.Id)).ToListAsync();
 
 
         var funcionario = await GetById(funcionarioId);
 
-        funcionario.Squads.AddRange(roles);
+        //funcionario.Squads.AddRange(roles);
 
         try
         {
@@ -218,14 +220,15 @@ public class FuncionarioRepository : IFuncionarioRepository, IContaRepository
 
     public async Task RemoveRolesFuncionario(IEnumerable<int> rolesIds, int funcionarioId)
     {
+        throw new NotImplementedException();
 
-        var roles = await _context.Squads.Where(x => rolesIds.Contains(x.Id)).ToListAsync();
+        //var roles = await _context.Squads.Where(x => rolesIds.Contains(x.Id)).ToListAsync();
 
 
         var funcionario = await GetById(funcionarioId);
 
-        foreach ( var role in roles )
-            funcionario.Squads.Remove(role);
+        //foreach ( var role in roles )
+            //funcionario.Squads.Remove(role);
 
         try
         {

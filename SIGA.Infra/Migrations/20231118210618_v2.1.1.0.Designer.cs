@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIGA.Infra.Data;
 
@@ -11,9 +12,11 @@ using SIGA.Infra.Data;
 namespace SIGA.Infra.Migrations
 {
     [DbContext(typeof(SIGAAppDbContext))]
-    partial class SIGAAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231118210618_v2.1.1.0")]
+    partial class v2110
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,19 +95,61 @@ namespace SIGA.Infra.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<byte>", b =>
+                {
+                    b.Property<byte>("Id")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityRole<byte>");
 
                     b.HasData(
                         new
                         {
-                            Id = "1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            Id = (byte)1,
+                            Name = "Admin"
                         },
                         new
                         {
-                            Id = "2",
-                            Name = "Funcionario",
-                            NormalizedName = "FUNCIONARIO"
+                            Id = (byte)2,
+                            Name = "TOR"
+                        },
+                        new
+                        {
+                            Id = (byte)3,
+                            Name = "SUITS"
+                        },
+                        new
+                        {
+                            Id = (byte)4,
+                            Name = "SIR"
+                        },
+                        new
+                        {
+                            Id = (byte)5,
+                            Name = "SAGA"
+                        },
+                        new
+                        {
+                            Id = (byte)6,
+                            Name = "Arrecadacao"
+                        },
+                        new
+                        {
+                            Id = (byte)7,
+                            Name = "Coordenacao"
                         });
                 });
 
@@ -559,7 +604,8 @@ namespace SIGA.Infra.Migrations
 
                     b.HasIndex("EquipeId");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioId")
+                        .IsUnique();
 
                     b.ToTable("Funcionario", (string)null);
                 });
@@ -924,10 +970,11 @@ namespace SIGA.Infra.Migrations
                         .HasConstraintName("FK_Funcionario_EquipeId");
 
                     b.HasOne("SIGA.Domain.Entities.ApplicationUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .WithOne("Funcionario")
+                        .HasForeignKey("SIGA.Domain.Entities.Funcionario", "UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Funcionario_UsuarioId");
 
                     b.Navigation("Equipe");
 
@@ -953,6 +1000,12 @@ namespace SIGA.Infra.Migrations
                     b.Navigation("Concessao");
 
                     b.Navigation("EmpresaVPN");
+                });
+
+            modelBuilder.Entity("SIGA.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Funcionario")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SIGA.Domain.Entities.ClientVPN", b =>

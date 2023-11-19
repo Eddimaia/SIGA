@@ -82,7 +82,7 @@ public class FuncionariosController : ControllerBase
         }
     }
 
-    [HttpPost("{funcionarioId}")]
+    [HttpPut("Roles/{funcionarioId}")]
     [Authorize]
     public async Task<IActionResult> AddRoleAsync(int funcionarioId, IEnumerable<int> rolesIds)
     {

@@ -1,20 +1,21 @@
-﻿using System.Text.Json.Serialization;
+﻿using Microsoft.AspNetCore.Identity;
+using SIGA.Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace SIGA.Domain.Entities;
 public class Funcionario : ModelBase
 {
-	public string Login { get; set; } = string.Empty;
 	public string Nome { get; set; } = string.Empty;
 	public string Sobrenome { get; set; } = string.Empty;
-	public string Email { get; set; } = string.Empty;
 
 	[JsonIgnore]
-	public string PasswordHash { get; set; } = string.Empty;
+	public Equipe Equipe { get; set; } = new();
 
 	[JsonIgnore]
-	public List<Projeto> Projetos { get; set; } = new();
+	public ApplicationUser Usuario { get; set; } = new();
+
 	[JsonIgnore]
-	public List<Acesso> Acessos { get; set; } = new();
+	public List<Projeto> Projetos { get; set; } = [];
 	[JsonIgnore]
-	public List<Squad> Squads { get; set; } = new();
+	public List<Acesso> Acessos { get; set; } = [];
 }

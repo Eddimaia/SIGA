@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIGA.Infra.Data;
 
@@ -11,9 +12,11 @@ using SIGA.Infra.Data;
 namespace SIGA.Infra.Migrations
 {
     [DbContext(typeof(SIGAAppDbContext))]
-    partial class SIGAAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231118233851_v2.1.8.2")]
+    partial class v2182
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

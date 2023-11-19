@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIGA.Infra.Data;
 
@@ -11,9 +12,11 @@ using SIGA.Infra.Data;
 namespace SIGA.Infra.Migrations
 {
     [DbContext(typeof(SIGAAppDbContext))]
-    partial class SIGAAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231118211726_v2.1.3.0")]
+    partial class v2130
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,15 +99,38 @@ namespace SIGA.Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            Id = "afdaaa44-fefb-40ac-9401-cac279795ca9",
+                            Name = "Admin"
                         },
                         new
                         {
-                            Id = "2",
-                            Name = "Funcionario",
-                            NormalizedName = "FUNCIONARIO"
+                            Id = "09e65a84-7225-4f99-876c-9d30c9fd724f",
+                            Name = "TOR"
+                        },
+                        new
+                        {
+                            Id = "35bf1432-6350-419f-8faf-bc40f12d1e1d",
+                            Name = "SUITS"
+                        },
+                        new
+                        {
+                            Id = "3aa975fd-9707-41ad-bbf9-7418769a8d8e",
+                            Name = "SIR"
+                        },
+                        new
+                        {
+                            Id = "9ede177a-4356-411c-ba66-309e189d95bd",
+                            Name = "SAGA"
+                        },
+                        new
+                        {
+                            Id = "d62d077a-e4ff-4dec-bba7-02387cb9299e",
+                            Name = "Arrecadacao"
+                        },
+                        new
+                        {
+                            Id = "0c301dca-cd71-411d-b81e-74339515dbe5",
+                            Name = "Coordenacao"
                         });
                 });
 
@@ -559,7 +585,8 @@ namespace SIGA.Infra.Migrations
 
                     b.HasIndex("EquipeId");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioId")
+                        .IsUnique();
 
                     b.ToTable("Funcionario", (string)null);
                 });
@@ -924,10 +951,11 @@ namespace SIGA.Infra.Migrations
                         .HasConstraintName("FK_Funcionario_EquipeId");
 
                     b.HasOne("SIGA.Domain.Entities.ApplicationUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .WithOne("Funcionario")
+                        .HasForeignKey("SIGA.Domain.Entities.Funcionario", "UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Funcionario_UsuarioId");
 
                     b.Navigation("Equipe");
 
@@ -953,6 +981,12 @@ namespace SIGA.Infra.Migrations
                     b.Navigation("Concessao");
 
                     b.Navigation("EmpresaVPN");
+                });
+
+            modelBuilder.Entity("SIGA.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Funcionario")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SIGA.Domain.Entities.ClientVPN", b =>

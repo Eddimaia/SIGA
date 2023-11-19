@@ -7,6 +7,6 @@ public class RoleMappingProfile : Profile
 {
     public RoleMappingProfile()
     {
-        CreateMap<Squad, RoleDTO>().ReverseMap();
+        CreateMap<Role, RoleDTO>().ReverseMap();
     }
 }

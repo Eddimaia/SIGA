@@ -27,12 +27,12 @@ namespace SIGA.API.Controllers
 		// GET: api/Roles
 		[HttpGet]
 		[Authorize]
-		public async Task<ActionResult<IEnumerable<Squad>>> GetRolesAsync()
+		public async Task<ActionResult<IEnumerable<Role>>> GetRolesAsync()
 		{
 			try
 			{
 				var roles = await _roleRepository.GetAll();
-				return Ok(new ResponseDTO<IEnumerable<Squad>>(roles));
+				return Ok(new ResponseDTO<IEnumerable<Role>>(roles));
 			}
 			catch (Exception ex)
 			{
@@ -43,13 +43,13 @@ namespace SIGA.API.Controllers
 		// GET: api/Roles/5
 		[HttpGet("{id}")]
 		[Authorize]
-		public async Task<ActionResult<Squad>> GetRoleAsync(int id)
+		public async Task<ActionResult<Role>> GetRoleAsync(int id)
 		{
 			try
 			{
 				var role = await _roleRepository.GetById(id);
 
-				return Ok(new ResponseDTO<Squad>(role));
+				return Ok(new ResponseDTO<Role>(role));
 			}
 			catch (DataNotFoundException ex)
 			{
@@ -65,12 +65,12 @@ namespace SIGA.API.Controllers
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPut("{id}")]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> PutRoleAsync(int id, Squad model)
+		public async Task<IActionResult> PutRoleAsync(int id, Role model)
 		{
-			if (id != model.Id)
-			{
-				return BadRequest();
-			}
+			//if (id.ToString() != model.Id)
+			//{
+			//	return BadRequest();
+			//}
 
 			if (!ModelState.IsValid)
 				return BadRequest(new ResponseDTO<string>(ModelState.GetErrors()));
@@ -99,7 +99,7 @@ namespace SIGA.API.Controllers
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPost]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> PostRoleAsync(Squad model)
+		public async Task<IActionResult> PostRoleAsync(Role model)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(new ResponseDTO<string>(ModelState.GetErrors()));

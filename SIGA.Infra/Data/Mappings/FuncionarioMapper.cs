@@ -12,24 +12,10 @@ public class FuncionarioMapper : IEntityTypeConfiguration<Funcionario>
             .ToTable("Funcionario")
             .HasKey(x => x.Id);
 
-        builder
-            .HasIndex(x => x.Email, "IX_Funcionario_Email")
-            .IsUnique();
-
-        builder
-			.HasIndex(x => x.Login, "IX_Funcionario_Login")
-			.IsUnique();
-
 		builder
-        .Property(x => x.Id)
-        .ValueGeneratedOnAdd()
-        .UseIdentityColumn();
-
-		builder.Property(x => x.Login)
-			.IsRequired()
-			.HasColumnName("Login")
-			.HasColumnType("VARCHAR")
-			.HasMaxLength(10);
+            .Property(x => x.Id)
+            .ValueGeneratedOnAdd()
+            .UseIdentityColumn();
 
 		builder.Property(x => x.Nome)
             .IsRequired()
@@ -43,35 +29,16 @@ public class FuncionarioMapper : IEntityTypeConfiguration<Funcionario>
 			.HasColumnType("NVARCHAR")
 			.HasMaxLength(50);
 
-		builder.Property(x => x.Email)
-            .IsRequired()
-            .HasColumnName("Email")
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
-
-        builder.Property(x => x.PasswordHash)
-            .IsRequired()
-            .HasColumnName("PasswordHash")
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(255);
+        builder
+            .HasOne(x => x.Usuario)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder
-            .HasMany(x => x.Squads)
+            .HasOne(x => x.Equipe)
             .WithMany(x => x.Funcionarios)
-            .UsingEntity<Dictionary<string, object>>(
-                "FuncionarioSquad",
-                squad => squad
-                    .HasOne<Squad>()
-                    .WithMany()
-                    .HasForeignKey("SquadId")
-                    .HasConstraintName("FK_FuncionarioSquad_SquadId")
-                    .OnDelete(DeleteBehavior.Cascade),
-                funcionario => funcionario
-                    .HasOne<Funcionario>()
-                    .WithMany()
-                    .HasForeignKey("FuncionarioId")
-                    .HasConstraintName("FK_FuncionarioSquad_FuncionarioId")
-                    .OnDelete(DeleteBehavior.Cascade));
+            .HasConstraintName("FK_Funcionario_EquipeId")
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasMany(x => x.Projetos)

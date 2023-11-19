@@ -14,70 +14,48 @@ public class RoleRepository : IRoleRepository
     public RoleRepository(SIGAAppDbContext context)
     {
         _context = context;
-        CheckDbSet();
+        //CheckDbSet();
+    }
+
+    public Task Delete(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Role>> GetAll()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Role> GetById(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Funcionario>> GetFuncionariosByRole(int roleId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Save(Role entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Update(Role entity)
+    {
+        throw new NotImplementedException();
     }
 
     private void CheckDbSet()
     {
-        if ( _context.Squads is null )
-            throw new Exception("Entity set 'SIGAAppDbContext.Roles'  is null.");
-    }
-
-    public async Task Delete(int id)
-    {
-        var role = await _context.Squads.FindAsync(id) ?? throw new DataNotFoundException("Role não encontrada");
-
-        _context.Squads.Remove(role);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<IEnumerable<Squad>> GetAll()
-    {
-        return await _context.Squads.AsNoTracking().ToListAsync();
-    }
-
-    public async Task<Squad> GetById(int id)
-    {
-        return await _context.Squads.FindAsync(id) ?? throw new DataNotFoundException("Role não encontrada");
-    }
-
-    public async Task<IEnumerable<Funcionario>> GetFuncionariosByRole(int roleId)
-    {
-        var role = await _context.Squads
-            .AsNoTracking()
-            .Include(r => r.Funcionarios)
-            .Where(r => r.Id.Equals(roleId))
-            .FirstOrDefaultAsync();
-
-        return role is null ? throw new DataNotFoundException("Role não encontrada") : (IEnumerable<Funcionario>)role.Funcionarios;
-    }
-
-    public async Task Save(Squad entity)
-    {
-
-        _context.Squads.Add(entity);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task Update(Squad entity)
-    {
-        _context.Entry(entity).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch ( DbUpdateConcurrencyException )
-        {
-            if ( !RoleExists(entity.Id) )
-                throw new DataNotFoundException("Role não encontrada");
-            else
-                throw;
-        }
+        throw new NotImplementedException();
+        //if ( _context.Squads is null )
+        //    throw new Exception("Entity set 'SIGAAppDbContext.Roles'  is null.");
     }
 
     private bool RoleExists(int id)
     {
-        return (_context.Squads?.Any(e => e.Id == id)).GetValueOrDefault();
+        throw new NotImplementedException();
     }
 }

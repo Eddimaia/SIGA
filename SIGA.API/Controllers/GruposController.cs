@@ -14,6 +14,7 @@ namespace SIGA.API.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class GruposController : ControllerBase
 {
 	private readonly IGrupoRepository _grupoRepository;
@@ -27,8 +28,8 @@ public class GruposController : ControllerBase
 
 	// GET: api/v1/Grupos
 	[HttpGet]
-	[Authorize]
-	public async Task<ActionResult<IEnumerable<GrupoDTO>>> GetGruposAsync()
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<IEnumerable<GrupoDTO>>> GetGruposAsync()
 	{
 		try
 		{
@@ -44,8 +45,7 @@ public class GruposController : ControllerBase
 
 	// GET: api/v1/Grupos/5
 	[HttpGet("{id}")]
-	[Authorize]
-	public async Task<ActionResult<GrupoDTO>> GetGrupoAsync(int id)
+    public async Task<ActionResult<GrupoDTO>> GetGrupoAsync(int id)
 	{
 		try
 		{
@@ -155,7 +155,6 @@ public class GruposController : ControllerBase
 	}
 
 	[HttpGet("concessoes/{id}")]
-	[Authorize]
 	public async Task<ActionResult<IEnumerable<ConcessaoDTO>>> GetFuncionariosByGrupoAsync(int id)
 	{
 		try

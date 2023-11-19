@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIGA.Infra.Data;
 
@@ -11,9 +12,11 @@ using SIGA.Infra.Data;
 namespace SIGA.Infra.Migrations
 {
     [DbContext(typeof(SIGAAppDbContext))]
-    partial class SIGAAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231118230716_v2.1.8.0")]
+    partial class v2180
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,14 +100,12 @@ namespace SIGA.Infra.Migrations
                         new
                         {
                             Id = "1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            Name = "Admin"
                         },
                         new
                         {
                             Id = "2",
-                            Name = "Funcionario",
-                            NormalizedName = "FUNCIONARIO"
+                            Name = "Funcionario"
                         });
                 });
 
@@ -348,6 +349,9 @@ namespace SIGA.Infra.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("FuncionarioId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -382,6 +386,8 @@ namespace SIGA.Infra.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FuncionarioId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -888,6 +894,17 @@ namespace SIGA.Infra.Migrations
                         .HasConstraintName("FK_ClientVPN_AnexoInstalacaoId");
 
                     b.Navigation("ClientVPN");
+                });
+
+            modelBuilder.Entity("SIGA.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.HasOne("SIGA.Domain.Entities.Funcionario", "Funcionario")
+                        .WithMany()
+                        .HasForeignKey("FuncionarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Funcionario");
                 });
 
             modelBuilder.Entity("SIGA.Domain.Entities.ClientVPN", b =>
