@@ -75,10 +75,20 @@ public class ContasController : ControllerBase
         {
             var result = await _signInManager.PasswordSignInAsync(model.Login, model.Senha, isPersistent: false, lockoutOnFailure: false);
 
-            if ( result.Succeeded )
-                return Ok(new ResponseDTO<UsuarioToken>(tokenService.GenerateToken(model)));
-            else
+            if ( !result.Succeeded )
                 return BadRequest();
+
+            var usuario = await _userManager.FindByEmailAsync(model.Email);
+
+            ArgumentNullException.ThrowIfNull(usuario);
+
+            var roles = await _userManager.GetRolesAsync(usuario);
+
+            return Ok(new ResponseDTO<UsuarioToken>(tokenService.GenerateToken(usuario, roles)));
+        }
+        catch ( ArgumentNullException )
+        {
+            return BadRequest();
         }
         catch
         {

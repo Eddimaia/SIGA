@@ -8,12 +8,12 @@ using SIGA.Domain.Entities;
 namespace SIGA.API.Services;
 public class TokenService
 {
-	public UsuarioToken GenerateToken(Usuario usuario)
+	public UsuarioToken GenerateToken(ApplicationUser usuario, IList<string> roles)
 	{
 		var tokenHandler = new JwtSecurityTokenHandler();
 
 		var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
-		var claims = usuario.GetClaims();
+		var claims = usuario.GetClaims(roles);
 		var expires = DateTime.UtcNow.AddHours(8);
 
 		var tokenDescriptor = new SecurityTokenDescriptor
