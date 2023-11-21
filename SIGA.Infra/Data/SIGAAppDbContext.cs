@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace SIGA.Infra.Data;
 
-public class SIGAAppDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser>(options)
+public class SIGAAppDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>(options)
 {
     public DbSet<Acesso> Acessos { get; set; }
 	public DbSet<AnexoInstalacao> AnexosIntalacoes { get; set; }
@@ -28,6 +28,7 @@ public class SIGAAppDbContext(DbContextOptions options) : IdentityDbContext<Appl
             new() { Id = "1", Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = "FA17B140-A23D-42C0-A627-77AAE14CF19C"},
             new() { Id = "2", Name = "Funcionario", NormalizedName = "FUNCIONARIO", ConcurrencyStamp = "E938FC2D-9EC8-4C57-8889-5DAD0B21CECE"}
         });
+		modelBuilder.Entity<ApplicationUser>().ToTable("users", schema: "Identity");
         modelBuilder
 			.ApplyConfiguration(new AcessoMapper())
 			.ApplyConfiguration(new AnexoInstalacaoMapper())
@@ -39,6 +40,8 @@ public class SIGAAppDbContext(DbContextOptions options) : IdentityDbContext<Appl
 			.ApplyConfiguration(new VPNMapper())
 			.ApplyConfiguration(new TipoAcessoMapper())
 			.ApplyConfiguration(new EmpresaVPNMapper())
-			.ApplyConfiguration(new EquipeMapper());
+			.ApplyConfiguration(new EquipeMapper())
+			//.ApplyConfiguration(new IdentityUserMapper())
+			;
 	}
 }

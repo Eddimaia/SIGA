@@ -93,7 +93,7 @@ void ConfigureServices(WebApplicationBuilder builder)
         .AddDbContext<SIGAAppDbContext>(options => options.UseSqlServer(connectionString));
 
     builder.Services
-        .AddIdentity<ApplicationUser, IdentityRole>()
+        .AddIdentity<ApplicationUser, IdentityRole<int>>()
         .AddEntityFrameworkStores<SIGAAppDbContext>()
         .AddDefaultTokenProviders();
 

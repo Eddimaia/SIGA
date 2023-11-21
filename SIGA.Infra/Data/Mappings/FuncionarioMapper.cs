@@ -29,10 +29,10 @@ public class FuncionarioMapper : IEntityTypeConfiguration<Funcionario>
 			.HasColumnType("NVARCHAR")
 			.HasMaxLength(50);
 
-        builder
-            .HasOne(x => x.Usuario)
-            .WithMany()
-            .OnDelete(DeleteBehavior.Cascade);
+        //builder
+        //    .HasOne(x => x.Usuario)
+        //    .WithMany()
+        //    .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasOne(x => x.Equipe)
