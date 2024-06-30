@@ -3,6 +3,13 @@
 namespace SIGA.Domain.Entities;
 public class Client : Entity
 {
+    public Client(int id, string name, string? acronym)
+    {
+        Id = id;
+        Name = name;
+        Acronym = acronym;
+    }
+
     public string Name { get; set; } = null!;
     public string? Acronym { get; set; } = null!;
 

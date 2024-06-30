@@ -4,6 +4,13 @@ using Financials.Domain.Entities.Common;
 namespace SIGA.Domain.Entities;
 public class Project : Entity
 {
+    public Project(int id, string name, string acronym)
+    {
+        Id = id;
+        Name = name;
+        Acronym = acronym;
+    }
+
     public string Name { get; set; } = null!;
     public string Acronym { get; set; } = null!;
 

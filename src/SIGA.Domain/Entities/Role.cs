@@ -3,6 +3,13 @@
 namespace Financials.Domain.Entities;
 public class Role : Entity
 {
+    public Role(int id, string name, string description)
+    {
+        Id = id;
+        Name = name;
+        Description = description;
+    }
+
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;
 

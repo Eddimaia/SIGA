@@ -1,5 +1,5 @@
 ﻿namespace SIGA.Domain.Enums;
-public enum EDataBaseType
+public enum EDataBaseType : byte
 {
     SqlServer,
     PostgreSql,

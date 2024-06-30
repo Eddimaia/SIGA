@@ -4,6 +4,40 @@ using SIGA.Domain.Entities;
 namespace Financials.Domain.Entities;
 public class ApplicationUser : Entity
 {
+    public ApplicationUser(
+        int id,
+        string firstName, 
+        string lastName, 
+        string login, 
+        string userName, 
+        string password, 
+        string email, 
+        string? phoneNumber, 
+        DateTime birthDate, 
+        DateTime lastLoginDate, 
+        DateTime createdAt, 
+        bool isEmailConfirmed, 
+        bool isPhoneNumberConfirmed, 
+        bool isEmployed, 
+        bool isProjectCoordinator)
+    {
+        Id = id;
+        FirstName = firstName;
+        LastName = lastName;
+        Login = login;
+        UserName = userName;
+        Password = password;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        BirthDate = birthDate;
+        LastLoginDate = lastLoginDate;
+        CreatedAt = createdAt;
+        IsEmailConfirmed = isEmailConfirmed;
+        IsPhoneNumberConfirmed = isPhoneNumberConfirmed;
+        IsEmployed = isEmployed;
+        IsProjectCoordinator = isProjectCoordinator;
+    }
+
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public string Login { get; set; } = null!;
