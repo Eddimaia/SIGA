@@ -1,4 +1,4 @@
-﻿using Financials.Domain.Entities.Common;
+﻿using SIGA.Domain.Entities.Common;
 using SIGA.Domain.Enums;
 using SIGA.Domain.Interfaces;
 

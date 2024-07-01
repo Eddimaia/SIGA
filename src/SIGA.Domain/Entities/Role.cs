@@ -1,6 +1,6 @@
-﻿using Financials.Domain.Entities.Common;
+﻿using SIGA.Domain.Entities.Common;
 
-namespace Financials.Domain.Entities;
+namespace SIGA.Domain.Entities;
 public class Role : Entity
 {
     public Role(int id, string name, string description)

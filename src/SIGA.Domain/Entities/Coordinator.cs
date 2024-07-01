@@ -1,5 +1,5 @@
-﻿using Financials.Domain.Entities;
-using Financials.Domain.Entities.Common;
+﻿using SIGA.Domain.Entities;
+using SIGA.Domain.Entities.Common;
 
 namespace SIGA.Domain.Entities;
 public class Coordinator : Entity
