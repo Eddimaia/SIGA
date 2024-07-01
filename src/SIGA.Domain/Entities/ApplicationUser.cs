@@ -1,5 +1,4 @@
 ﻿using SIGA.Domain.Entities.Common;
-using SIGA.Domain.Entities;
 
 namespace SIGA.Domain.Entities;
 public class ApplicationUser : Entity

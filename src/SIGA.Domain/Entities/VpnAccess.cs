@@ -1,5 +1,4 @@
-﻿using SIGA.Domain.Entities;
-using SIGA.Domain.Entities.Common;
+﻿using SIGA.Domain.Entities.Common;
 using SIGA.Domain.Interfaces;
 
 namespace SIGA.Domain.Entities;
