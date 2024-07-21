@@ -4,6 +4,10 @@ using SIGA.Domain.Interfaces;
 namespace SIGA.Domain.Entities;
 public class VpnAccess : Entity, IAccess
 {
+    public VpnAccess()
+    {
+        
+    }
     public VpnAccess(int id, string login, string vpnName, string password)
     {
         Id = id;
@@ -16,10 +20,10 @@ public class VpnAccess : Entity, IAccess
     public string Login { get; set; } = null!;
     public string VpnName { get; set; } = null!;
     public string Password { get; set; } = null!;
+    public int ClientId { get; set; }
+    public int ApplicationUserId { get; set; }
 
 
-
-    public Client Client { get; set; } = new(default, string.Empty, default);
-    public ApplicationUser ApplicationUser { get; set; } = new(
-        default, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, default, default, default, default, default, default, default, default);
+    public Client Client { get; set; } = new();
+    public ApplicationUser ApplicationUser { get; set; } = new();
 }

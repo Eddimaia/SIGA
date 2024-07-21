@@ -1,0 +1,6 @@
+@SIGA.API_HostAddress = http://localhost:5072
+
+GET {{SIGA.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

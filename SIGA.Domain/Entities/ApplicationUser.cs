@@ -3,21 +3,22 @@
 namespace SIGA.Domain.Entities;
 public class ApplicationUser : Entity
 {
+    public ApplicationUser() { }
     public ApplicationUser(
         int id,
-        string firstName, 
-        string lastName, 
-        string login, 
-        string userName, 
-        string password, 
-        string email, 
-        string? phoneNumber, 
-        DateTime birthDate, 
-        DateTime lastLoginDate, 
-        DateTime createdAt, 
-        bool isEmailConfirmed, 
-        bool isPhoneNumberConfirmed, 
-        bool isEmployed, 
+        string firstName,
+        string lastName,
+        string login,
+        string userName,
+        string password,
+        string email,
+        string? phoneNumber,
+        DateTime birthDate,
+        DateTime lastLoginDate,
+        DateTime createdAt,
+        bool isEmailConfirmed,
+        bool isPhoneNumberConfirmed,
+        bool isEmployed,
         bool isProjectCoordinator)
     {
         Id = id;
@@ -50,10 +51,11 @@ public class ApplicationUser : Entity
     public bool IsEmailConfirmed { get; set; }
     public bool IsPhoneNumberConfirmed { get; set; }
     public bool IsEmployed { get; set; }
-    public bool IsProjectCoordinator {  get; set; }
+    public bool IsProjectCoordinator { get; set; }
 
 
 
     public ICollection<Role> Roles { get; set; } = new List<Role>();
     public ICollection<Project> Projects { get; set; } = new List<Project>();
+    public ICollection<Project> CoordinatorProjects { get; set; } = new List<Project>();
 }

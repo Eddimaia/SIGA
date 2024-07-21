@@ -4,6 +4,10 @@ namespace SIGA.Domain.Entities;
 public class Vpn : Entity
 {
 
+    public Vpn()
+    {
+        
+    }
     public Vpn(string host, string name, string version, string? iconPath, string? domain)
     {
         Host = host;
@@ -18,9 +22,9 @@ public class Vpn : Entity
     public string Version { get; set; } = null!;
     public string? IconPath { get; set; }
     public string? Domain { get; set; }
+    public int ClientId { get; set; }
 
 
-
-    public Client Client { get; set; } = new(default, string.Empty, default);
+    public Client Client { get; set; } = new();
     public ICollection<VpnAccess> VpnAccesses { get; set; } = new List<VpnAccess>();
 }

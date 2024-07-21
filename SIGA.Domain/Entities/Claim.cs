@@ -1,13 +1,17 @@
 ﻿using SIGA.Domain.Entities.Common;
 
 namespace SIGA.Domain.Entities;
-public class Role : Entity
+public class Claim : Entity
 {
-    public Role(int id, string name, string description)
+    public Claim()
     {
-        Id = id;
+        
+    }
+    public Claim(string name, string description, ICollection<ApplicationUser> applicationUser)
+    {
         Name = name;
         Description = description;
+        ApplicationUser = applicationUser;
     }
 
     public string Name { get; set; } = null!;
