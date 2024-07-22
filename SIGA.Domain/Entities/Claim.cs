@@ -1,4 +1,5 @@
 ﻿using SIGA.Domain.Entities.Common;
+using SIGA.Domain.Entities.Relations;
 
 namespace SIGA.Domain.Entities;
 public class Claim : Entity
@@ -7,11 +8,12 @@ public class Claim : Entity
     {
         
     }
-    public Claim(string name, string description, ICollection<ApplicationUser> applicationUser)
+    public Claim(int id, string name, string description, ICollection<ApplicationUser> applicationUser)
     {
+        Id = id;
         Name = name;
         Description = description;
-        ApplicationUser = applicationUser;
+        ApplicationUsers = applicationUser;
     }
 
     public string Name { get; set; } = null!;
@@ -19,5 +21,6 @@ public class Claim : Entity
 
 
 
-    public ICollection<ApplicationUser> ApplicationUser { get; set; } = new List<ApplicationUser>();
+    public ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
+    public ICollection<ApplicationUserClaim> UserClaims { get; set; } = new List<ApplicationUserClaim>();
 }

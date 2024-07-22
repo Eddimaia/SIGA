@@ -1,4 +1,5 @@
 ﻿using SIGA.Domain.Entities.Common;
+using SIGA.Domain.Entities.Relations;
 
 namespace SIGA.Domain.Entities;
 public class Role : Entity
@@ -19,5 +20,6 @@ public class Role : Entity
 
 
 
-    public ICollection<ApplicationUser> ApplicationUser { get; set; } = new List<ApplicationUser>();
+    public ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
+    public ICollection<ApplicationUserRole> UserRoles { get; set; } = new List<ApplicationUserRole>();
 }

@@ -1,7 +1,7 @@
 ﻿using SIGA.Domain.Entities.Common;
 
 namespace SIGA.Domain.Entities.Relations;
-public class UserProject : Entity
+public class ApplicationUserProject : Entity
 {
     public int ApplicationUserId { get; set; }
     public int ProjectId { get; set; }

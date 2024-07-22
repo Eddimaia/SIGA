@@ -1,4 +1,5 @@
 ﻿using SIGA.Domain.Entities.Common;
+using SIGA.Domain.Entities.Relations;
 
 namespace SIGA.Domain.Entities;
 public class Client : Entity
@@ -20,6 +21,7 @@ public class Client : Entity
 
 
     public ICollection<Project> Projects { get; set; } = new List<Project>();
-    public ICollection<VpnAccess> VpnAccesses { get; set; } = new List<VpnAccess>();
     public ICollection<DatabaseAccess> DatabaseAccesses { get; set; } = new List<DatabaseAccess>();
+    public ICollection<Vpn> Vpns { get; set; } = new List<Vpn>();
+    public ICollection<ClientProject> ClientProjects { get; set; } = new List<ClientProject>();
 }

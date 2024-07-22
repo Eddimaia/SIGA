@@ -18,5 +18,5 @@ public class DatabaseType
 
 
 
-    public ICollection<DatabaseAccess> DatabaseAccess { get; set; } = new List<DatabaseAccess>();
+    public ICollection<DatabaseAccess> DatabaseAccesses { get; set; } = new List<DatabaseAccess>();
 }

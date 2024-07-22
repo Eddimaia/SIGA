@@ -1,5 +1,7 @@
-﻿namespace SIGA.Domain.Entities.Relations;
-public class DatabaseAcessProject
+﻿using SIGA.Domain.Entities.Common;
+
+namespace SIGA.Domain.Entities.Relations;
+public class DatabaseAcessProject : Entity
 {
     public int DatabaseAccessId { get; set; }
     public int ProjectId { get; set; }

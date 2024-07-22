@@ -8,22 +8,20 @@ public class VpnAccess : Entity, IAccess
     {
         
     }
-    public VpnAccess(int id, string login, string vpnName, string password)
+    public VpnAccess(int id, string login, string password)
     {
         Id = id;
         Login = login;
-        VpnName = vpnName;
         Password = password;
     }
 
     public new int Id { get; set; }
     public string Login { get; set; } = null!;
-    public string VpnName { get; set; } = null!;
     public string Password { get; set; } = null!;
-    public int ClientId { get; set; }
     public int ApplicationUserId { get; set; }
+    public int VpnId { get; set; }
 
 
-    public Client Client { get; set; } = new();
     public ApplicationUser ApplicationUser { get; set; } = new();
+    public Vpn Vpn { get; set; } = new();
 }

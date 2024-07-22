@@ -1,4 +1,5 @@
 ﻿using SIGA.Domain.Entities.Common;
+using SIGA.Domain.Entities.Relations;
 using SIGA.Domain.Enums;
 using SIGA.Domain.Interfaces;
 
@@ -30,4 +31,5 @@ public class DatabaseAccess : Entity, IAccess
 
 
     public ICollection<Project> Projects { get; set; } = new List<Project>();
+    public ICollection<DatabaseAcessProject> DatabaseAcessProjects { get; set; } = new List<DatabaseAcessProject>();
 }
