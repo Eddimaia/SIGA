@@ -42,7 +42,7 @@ public class ApplicationUserMapper : IEntityTypeConfiguration<ApplicationUser>
         builder
             .Property(x => x.Password)
             .IsRequired()
-            .HasColumnType("VARCHAR(50)");
+            .HasColumnType("VARCHAR(150)");
 
         builder
             .Property(x => x.Email)
@@ -108,5 +108,17 @@ public class ApplicationUserMapper : IEntityTypeConfiguration<ApplicationUser>
             .HasMany(x => x.CoordinatorProjects)
             .WithMany(x => x.Coordinators)
             .UsingEntity<CoordinatorProject>();
+
+        builder
+            .HasIndex(x => x.Email)
+            .IsUnique();
+
+        builder
+            .HasIndex(x => x.UserName)
+            .IsUnique();
+
+        builder
+            .HasIndex(x => x.Login)
+            .IsUnique();
     }
 }
