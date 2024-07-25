@@ -1,0 +1,41 @@
+﻿@page "/login"
+@layout HeadlessLayout
+@inherits LoginPage
+
+<PageTitle>SIGA - Login</PageTitle>
+
+<MudGrid Justify="Justify.Center">
+    <MudPaper Class="pa-16 ma-2" Outlined="true" Square="true">
+        <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
+            <DataAnnotationsValidator />
+
+            <MudTextField T="string"
+                          Label="Login"
+                          HelperText="Campo obrigatório"
+                          InputType="InputType.Text"
+                          For="@(() => InputModel.Login)"
+                          @bind-Value="InputModel.Login" />
+
+            <MudTextField T="string"
+                          Label="Senha"
+                          HelperText="Campo obrigatório"
+                          InputType="InputType.Password"
+                          For="@(() => InputModel.Password)"
+                          @bind-Value="InputModel.Password" />
+
+            <div class="d-flex mt-8">
+                @if (IsBusy)
+                {
+                    <MudProgressCircular Color="Color.Info" Indeterminate="true" />
+                }
+                else
+                {
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">ENTRAR</MudButton>
+                    <MudSpacer />
+                    <MudButton Href="/comecar">CADASTRE-SE</MudButton>
+                }
+            </div>
+
+        </EditForm>
+    </MudPaper>
+</MudGrid>

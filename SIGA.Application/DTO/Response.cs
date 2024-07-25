@@ -21,6 +21,7 @@ public class Response<TEntityResponse>
 
     public TEntityResponse? Data { get; set; }
     public string? Message { get; set; }
+    public int Code => _code;
 
     [JsonIgnore]
     public bool IsSuccess

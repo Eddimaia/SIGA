@@ -17,6 +17,14 @@ internal class Program
         builder.Services.AddIoCServices();
         builder.Services.AddIoCHandles();
         builder.Services.AddSecurity();
+        builder.Services.AddCors(
+        options => options.AddPolicy("CORSTESTE",policy 
+        => policy
+                    .WithOrigins("https://localhost:7185", "http://localhost:5222")
+                       .AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowCredentials()
+            ));
 
 
         var app = builder.Build();
@@ -28,29 +36,11 @@ internal class Program
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseCors("CORSTESTE");
 
-        var summaries = new[]
-        {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-        app.MapGet("/weatherforecast", () =>
-        {
-            var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-                .ToArray();
-            return forecast;
-        })
-        .WithName("GetWeatherForecast")
-        .WithOpenApi();
         using var scope = app.Services.CreateScope();
         var services = scope.ServiceProvider;
 
@@ -68,9 +58,4 @@ internal class Program
         app.MapEndpoints();
         app.Run();
     }
-}
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }

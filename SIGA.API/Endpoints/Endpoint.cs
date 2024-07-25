@@ -16,7 +16,11 @@ public static class Endpoint
         endpoints.MapGroup("v1/accounts")
             .WithTags("Accounts")
             .AllowAnonymous()
-            .MapEndpoint<RegisterAccountEndpoint>();
+            .MapEndpoint<RegisterAccountEndpoint>()
+            .MapEndpoint<LoginAccountEndpoint>()
+            .MapEndpoint<RefreshTokenAccountEndpoint>()
+            .MapEndpoint<InfoAccountEndpoint>()
+            .MapEndpoint<LogoutAccountEndpoint>();
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

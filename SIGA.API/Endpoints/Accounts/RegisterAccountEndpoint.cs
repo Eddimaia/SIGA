@@ -8,7 +8,7 @@ namespace SIGA.API.Endpoints.Accounts;
 public class RegisterAccountEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapPost("/", HandleAsync)
+        => app.MapPost("/Register", HandleAsync)
                 .WithName("Accounts: Register")
                 .WithSummary("Registra uma nova conta")
                 .WithDescription("Cria uma nova conta de usuário")
@@ -20,8 +20,9 @@ public class RegisterAccountEndpoint : IEndpoint
         RegisterRequest request)
     {
         var result = await handler.RegisterAsync(request);
+
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)
-            : TypedResults.BadRequest(result.Data);
+            : TypedResults.Problem();
     }
 }

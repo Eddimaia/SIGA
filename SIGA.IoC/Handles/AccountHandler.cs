@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SIGA.Application.DTO;
 using SIGA.Application.DTO.Account;
@@ -8,7 +9,7 @@ using SIGA.Domain.Entities;
 using SIGA.Infrastructure.Context;
 
 namespace SIGA.IoC.Handles;
-public class AccountHandler(AppDbContext context, ILogger<AccountHandler> logger, IPasswordService passwordService, ITokenService tokenService) : IAccountHandler
+public class AccountHandler(AppDbContext context, ILogger<AccountHandler> logger, IPasswordService passwordService, ITokenService tokenService) : IAccountHandler, ILogoutRefreshEndpointHandler
 {
     public async Task<Response<LoginResponse?>> LoginAsync(LoginRequest request)
     {
@@ -22,14 +23,14 @@ public class AccountHandler(AppDbContext context, ILogger<AccountHandler> logger
 
             if (user == null)
             {
-                return new Response<LoginResponse?>(null, 404, "Usuário não encontrado");
+                return new Response<LoginResponse?>(null, StatusCodes.Status404NotFound, "Usuário não encontrado");
             }
 
             var isPasswordValid = await passwordService.VerifyPassword(user.Password, request.Password);
 
             if (!isPasswordValid)
             {
-                return new Response<LoginResponse?>(null, 401, "Login ou Senha inválidos");
+                return new Response<LoginResponse?>(null, StatusCodes.Status401Unauthorized, "Login ou Senha inválidos");
             }
 
             var (token, refreshToken) = await tokenService.GenerateTokenAsync(user);
@@ -38,13 +39,26 @@ public class AccountHandler(AppDbContext context, ILogger<AccountHandler> logger
             {
                 Token = token,
                 RefreshToken = refreshToken
-            }, 200, "Login executado com sucesso");
+            }, StatusCodes.Status200OK, "Login executado com sucesso");
 
         }
         catch (Exception ex)
         {
             logger.LogError(ex, ex.Message);
-            return new Response<LoginResponse?>(null, 500, "Não foi possível realizar o login do usuário");
+            return new Response<LoginResponse?>(null, StatusCodes.Status500InternalServerError, "Não foi possível realizar o login do usuário");
+        }
+    }
+
+    public Task<bool> LogoutAsync(string refreshToken)
+    {
+        try
+        {
+            return Task.FromResult(tokenService.ClearAutheticationStates(refreshToken));
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, ex.Message);
+            return Task.FromResult(false);
         }
     }
 
@@ -60,7 +74,7 @@ public class AccountHandler(AppDbContext context, ILogger<AccountHandler> logger
 
             if (user == null)
             {
-                return new Response<LoginResponse?>(null, 404, "Usuário não encontrado");
+                return new Response<LoginResponse?>(null, StatusCodes.Status404NotFound, "Usuário não encontrado");
             }
 
             var tokens = await tokenService.GenerateFromRefreshTokenAsync(user, request.RefreshToken);
@@ -74,12 +88,12 @@ public class AccountHandler(AppDbContext context, ILogger<AccountHandler> logger
                 }, 200, "Login executado com sucesso");
             }
 
-            return new Response<LoginResponse?>(null, 422, "Não foi possível realizar o refresh do token");
+            return new Response<LoginResponse?>(null, StatusCodes.Status422UnprocessableEntity, "Não foi possível realizar o refresh do token");
         }
         catch (Exception ex)
         {
             logger.LogError(ex, ex.Message);
-            return new Response<LoginResponse?>(null, 500, "Não foi possível realizar o refresh do token");
+            return new Response<LoginResponse?>(null, StatusCodes.Status500InternalServerError, "Não foi possível realizar o refresh do token");
         }
     }
 
@@ -119,7 +133,7 @@ public class AccountHandler(AppDbContext context, ILogger<AccountHandler> logger
                 UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber
-            }, 201, "Usuário criado com sucesso");
+            }, StatusCodes.Status201Created, "Usuário criado com sucesso");
 
             await context.Database.CommitTransactionAsync();
             return response;
@@ -128,7 +142,7 @@ public class AccountHandler(AppDbContext context, ILogger<AccountHandler> logger
         {
             await context.Database.RollbackTransactionAsync();
             logger.LogError(ex, ex.Message);
-            return new Response<RegisterResponse?>(null, 500, "Não foi possível criar o usuário");
+            return new Response<RegisterResponse?>(null, StatusCodes.Status500InternalServerError, "Não foi possível criar o usuário");
         }
     }
 }

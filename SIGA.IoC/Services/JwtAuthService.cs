@@ -10,6 +10,9 @@ namespace SIGA.IoC.Services;
 public class JwtAuthService : ITokenService
 {
     private readonly ConcurrentDictionary<string, string?> _refreshTokens = new ConcurrentDictionary<string, string?>();
+
+    public bool ClearAutheticationStates(string refreshToken) => _refreshTokens.TryRemove(refreshToken, out _);
+
     public async Task<(string token, string refreshToken)?> GenerateFromRefreshTokenAsync(ApplicationUser user, string refreshToken)
     {
         if (ValidateRefreshToken(refreshToken))
@@ -24,7 +27,7 @@ public class JwtAuthService : ITokenService
     public async Task<(string token, string refreshToken)> GenerateTokenAsync(ApplicationUser user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes("TESTE_KEY_API_QLÇWJKSAAZZXCV");
+        var key = Encoding.ASCII.GetBytes("TESTE_KEY_API_QLÇWJKSAAZZXCV@$41x2412#!@#$!$");
         var expiration = DateTime.Now.AddHours(3);
 
         var claims = new List<System.Security.Claims.Claim>();
@@ -36,7 +39,7 @@ public class JwtAuthService : ITokenService
         var descriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = expiration,
+            Expires = DateTime.UtcNow.AddHours(3),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 

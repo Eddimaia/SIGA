@@ -30,6 +30,7 @@ public static class DependencyInjection
     public static IServiceCollection AddIoCHandles(this IServiceCollection services)
     {
         services.AddScoped<IAccountHandler, AccountHandler>();
+        services.AddScoped<ILogoutRefreshEndpointHandler, AccountHandler>();
 
         return services;
     }
@@ -55,7 +56,7 @@ public static class DependencyInjection
             options.SaveToken = true;
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("TESTE_KEY_API_QLÇWJKSAAZZXCV")),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("TESTE_KEY_API_QLÇWJKSAAZZXCV@$41x2412#!@#$!$")),
                 ValidateLifetime = true
             };
         });

@@ -1,17 +1,67 @@
-﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+﻿@using SIGA.Application.Handles.Interfaces
+@using SIGA.Web.Security.Interfaces
 
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+@inherits LayoutComponentBase
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<AuthorizeView>
+    <Authorized>
+        <MudLayout>
+            <MudAppBar>
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+                My Application
+            </MudAppBar>
+            <MudDrawer @bind-Open="@_drawerOpen">
+                <MudNavMenu>
+                    <MudNavLink Href="/" Match="NavLinkMatch.All">Início</MudNavLink>
+                    <MudNavLink Href="/servers" Match="NavLinkMatch.Prefix">Servers</MudNavLink>
+                    <MudNavGroup Title="Settings" Expanded="true">
+                        <MudNavLink Href="/register" Match="NavLinkMatch.Prefix">Adicionar Usuário</MudNavLink>
+                    </MudNavGroup>
+                    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">About</MudNavLink>
+                    <MudNavLink Match="NavLinkMatch.Prefix" OnClick="LogoutAsync">Sair</MudNavLink>
+                </MudNavMenu>
+            </MudDrawer>
+            <MudMainContent>
+                @Body
+            </MudMainContent>
+        </MudLayout>
+    </Authorized>
+    <NotAuthorized>
+        <SIGA.Web.Components.Login.RedirectToLogin />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Inject]
+    public ILogoutHandler Handler { get; set; } = null!;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+
+    [Inject]
+    public ICustomAuthStateProvider AuthenticationStateProvider { get; set; } = null!;
+    bool _drawerOpen = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    public async Task LogoutAsync()
+    {
+
+        if (await AuthenticationStateProvider.CheckAuthenticatedAsync())
+        {
+            await Handler.LogoutAsync();
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            AuthenticationStateProvider.NotifyAuthenticationStateChanged();
+            NavigationManager.NavigateTo("/Login");
+        }
+
+    }
+}
