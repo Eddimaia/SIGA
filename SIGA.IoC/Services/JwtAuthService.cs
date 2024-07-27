@@ -36,6 +36,8 @@ public class JwtAuthService : ITokenService
         foreach (var role in user.Roles)
             claims.Add(new System.Security.Claims.Claim(ClaimTypes.Role, role.Name));
 
+        claims.Add(new System.Security.Claims.Claim(ClaimTypes.Name, user.Login));
+
         var descriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),

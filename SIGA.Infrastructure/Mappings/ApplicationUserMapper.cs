@@ -32,12 +32,12 @@ public class ApplicationUserMapper : IEntityTypeConfiguration<ApplicationUser>
         builder
             .Property(x => x.Login)
             .IsRequired()
-            .HasColumnType("VARCHAR(10)");
+            .HasColumnType("VARCHAR(20)");
 
         builder
             .Property(x => x.UserName)
             .IsRequired()
-            .HasColumnType("VARCHAR(10)");
+            .HasColumnType("VARCHAR(20)");
 
         builder
             .Property(x => x.Password)
@@ -57,7 +57,7 @@ public class ApplicationUserMapper : IEntityTypeConfiguration<ApplicationUser>
         builder
             .Property(x => x.BirthDate)
             .IsRequired()
-            .HasColumnType("DATETIME2(0)");
+            .HasColumnType("DATE");
 
         builder
             .Property(x => x.LastLoginDate)

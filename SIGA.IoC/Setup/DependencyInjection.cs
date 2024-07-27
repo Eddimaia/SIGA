@@ -57,7 +57,9 @@ public static class DependencyInjection
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("TESTE_KEY_API_QLÇWJKSAAZZXCV@$41x2412#!@#$!$")),
-                ValidateLifetime = true
+                ValidateLifetime = true,
+                ValidateAudience = false,
+                ValidateIssuer = false
             };
         });
 

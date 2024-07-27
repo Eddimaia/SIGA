@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using SIGA.Application.DTO;
 using SIGA.Application.DTO.Account;
 using SIGA.Application.Handles.Interfaces;
@@ -9,6 +10,8 @@ public class RegisterAccountEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPost("/Register", HandleAsync)
+
+                .RequireAuthorization(options => options.RequireRole("Admin"))
                 .WithName("Accounts: Register")
                 .WithSummary("Registra uma nova conta")
                 .WithDescription("Cria uma nova conta de usuário")

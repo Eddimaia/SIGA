@@ -113,7 +113,7 @@ public class AccountHandler(AppDbContext context, ILogger<AccountHandler> logger
                 Password = passwordHash,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
-                BirthDate = request.BirthDate,
+                BirthDate = request.BirthDate.Value,
                 CreatedAt = DateTimeOffset.Now,
                 IsEmailConfirmed = false,
                 IsPhoneNumberConfirmed = false,

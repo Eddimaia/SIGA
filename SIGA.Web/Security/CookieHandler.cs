@@ -10,7 +10,6 @@ public class CookieHandler : DelegatingHandler
     {
         request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
         request.Headers.Add("X-Requested-With", ["XMLHttpRequest"]);
-        //request.Headers.Add("X-Resqueted-With", ["asd"]);
 
         return base.SendAsync(request, cancellationToken);
     }

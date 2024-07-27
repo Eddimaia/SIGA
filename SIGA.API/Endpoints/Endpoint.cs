@@ -15,7 +15,6 @@ public static class Endpoint
 
         endpoints.MapGroup("v1/accounts")
             .WithTags("Accounts")
-            .AllowAnonymous()
             .MapEndpoint<RegisterAccountEndpoint>()
             .MapEndpoint<LoginAccountEndpoint>()
             .MapEndpoint<RefreshTokenAccountEndpoint>()

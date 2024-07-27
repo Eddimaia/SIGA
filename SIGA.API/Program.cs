@@ -9,8 +9,6 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddInfrastructure(builder.Configuration);
@@ -18,28 +16,33 @@ internal class Program
         builder.Services.AddIoCHandles();
         builder.Services.AddSecurity();
         builder.Services.AddCors(
-        options => options.AddPolicy("CORSTESTE",policy 
-        => policy
-                    .WithOrigins("https://localhost:7185", "http://localhost:5222")
+        options => options.AddPolicy("CORSTESTE", policy
+            => policy
+                    .WithOrigins("http://localhost:5222")
                        .AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials()
             ));
 
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminCreateOnly", policy =>
+            {
+                policy.RequireRole("Admin");
+                policy.RequireClaim("Create");
+            });
+        });
+
 
         var app = builder.Build();
-
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
-        //app.UseHttpsRedirection();
+        app.UseCors("CORSTESTE");
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseCors("CORSTESTE");
 
         using var scope = app.Services.CreateScope();
         var services = scope.ServiceProvider;

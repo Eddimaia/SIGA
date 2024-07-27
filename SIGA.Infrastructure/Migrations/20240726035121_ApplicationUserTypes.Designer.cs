@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIGA.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using SIGA.Infrastructure.Context;
 namespace SIGA.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240726035121_ApplicationUserTypes")]
+    partial class ApplicationUserTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,11 +245,16 @@ namespace SIGA.Infrastructure.Migrations
                     b.Property<int>("ClaimId")
                         .HasColumnType("INT");
 
+                    b.Property<int>("RolesId")
+                        .HasColumnType("INT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("ClaimId");
+
+                    b.HasIndex("RolesId");
 
                     b.ToTable("ApplicationUserClaim", (string)null);
                 });
@@ -500,6 +508,12 @@ namespace SIGA.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_UserClaim_Claim");
+
+                    b.HasOne("SIGA.Domain.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ApplicationUser");
 

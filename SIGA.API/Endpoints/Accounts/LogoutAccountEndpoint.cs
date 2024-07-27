@@ -7,11 +7,11 @@ public class LogoutAccountEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPost("/Logout", HandleAsync)
+                    .RequireAuthorization()
                     .WithName("Accounts: Logout")
                     .WithSummary("Logout do usuário")
                     .WithDescription("Logout do usuário")
-                    .WithOrder(5)
-                    .RequireAuthorization();
+                    .WithOrder(5);
 
     private static IResult HandleAsync(HttpContext httpContext, ILogoutRefreshEndpointHandler handler)
     {

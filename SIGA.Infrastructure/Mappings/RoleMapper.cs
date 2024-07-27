@@ -32,6 +32,6 @@ public class RoleMapper : IEntityTypeConfiguration<Role>
         builder
             .HasMany(x => x.ApplicationUsers)
             .WithMany(x => x.Roles)
-            .UsingEntity<ApplicationUserClaim>();
+            .UsingEntity<ApplicationUserRole>();
     }
 }

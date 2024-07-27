@@ -12,7 +12,8 @@ public class LoginAccountEndpoint() : IEndpoint
                 .WithSummary("Login do usuário")
                 .WithDescription("Login do usuário")
                 .WithOrder(2)
-                .Produces<Response<LoginResponse?>>();
+                .Produces<Response<LoginResponse?>>()
+                .AllowAnonymous();
 
     private static async Task<IResult> HandleAsync(
         HttpContext http,

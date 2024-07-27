@@ -4,88 +4,115 @@
 
 <PageTitle>SIGA - Criar Usuário</PageTitle>
 <MudGrid Justify="Justify.FlexStart">
-    <MudPaper Class="pa-20 ma-20" Outlined="true" Square="true" Height="100%" Width="100%">
+    <MudPaper Class="pa-20 ma-20" Outlined="false" Square="true" Height="100%" Width="100%">
         <MudContainer>
-            <EditForm method="post" Model="InputModel" OnValidSubmit="OnValidSubmitAsync" FormName="Create" Enhance>
+            <EditForm Model="InputModel" OnValidSubmit="OnValidSubmitAsync">
                 <DataAnnotationsValidator />
-                <ValidationSummary class="text-danger" />
+                <MudGrid Spacing="6" Justify="Justify.Center">
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudTextField T="string"
+                                      Label="FirstName"
+                                      HelperText="Campo obrigatório"
+                                      InputType="InputType.Text"
+                                      Variant="Variant.Outlined"
+                                      For="@(() => InputModel.FirstName)"
+                                      @bind-Value="InputModel.FirstName" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudTextField T="string"
+                                      Label="LastName"
+                                      HelperText="Campo obrigatório"
+                                      InputType="InputType.Text"
+                                      Variant="Variant.Outlined"
+                                      For="@(() => InputModel.LastName)"
+                                      @bind-Value="InputModel.LastName" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudTextField T="string"
+                                      Label="UserName"
+                                      HelperText="Campo obrigatório"
+                                      InputType="InputType.Text"
+                                      Variant="Variant.Outlined"
+                                      For="@(() => InputModel.UserName)"
+                                      @bind-Value="InputModel.UserName" />
+                    </MudItem>
+                </MudGrid>
+                <MudGrid Spacing="6" Justify="Justify.Center">
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudTextField T="string"
+                                      Label="Login"
+                                      HelperText="Campo obrigatório"
+                                      InputType="InputType.Text"
+                                      Variant="Variant.Outlined"
+                                      For="@(() => InputModel.Login)"
+                                      @bind-Value="InputModel.Login" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudTextField T="string"
+                                      Label="Password"
+                                      HelperText="Campo obrigatório"
+                                      Variant="Variant.Outlined"
+                                      InputType="PasswordInput"
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="PasswordInputIcon"
+                                      OnAdornmentClick="ShowHidePassword"
+                                      AdornmentAriaLabel="Mostrar Password"
+                                      AdornmentColor="Color.Info"
+                                      For="@(() => InputModel.Password)"
+                                      @bind-Value="InputModel.Password" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudTextField T="string"
+                                      Label="Phone Number"
+                                      InputType="InputType.Text"
+                                      Mask="@(new PatternMask("(000)00000-0000"))"
+                                      Variant="Variant.Outlined"
+                                      For="@(() => InputModel.PhoneNumber)"
+                                      @bind-Value="InputModel.PhoneNumber" />
+                    </MudItem>
+                </MudGrid>
+                <MudGrid Spacing="6" Justify="Justify.Center">
+                    <MudItem xs="12" sm="6" md="6">
+                        <MudTextField T="string"
+                                      Label="E-mail"
+                                      HelperText="Campo obrigatório"
+                                      InputType="InputType.Email"
+                                      Variant="Variant.Outlined"
+                                      For="@(() => InputModel.Email)"
+                                      @bind-Value="InputModel.Email" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudDatePicker Editable="true"
+                                       Label="BirthDate"
+                                       HelperText="Campo obrigatório"
+                                       Variant="Variant.Outlined"
+                                       For="@(() => InputModel.BirthDate)"
+                                       @bind-Date="InputModel.BirthDate" />
+                    </MudItem>
+                </MudGrid>
+                <MudGrid Spacing="0" Justify="Justify.FlexStart">
+                    <MudItem xs="12" Class="d-inline-flex pl-16 justify-start flex-grow-1 gap-1 ml-20" sm="6" md="3">
+                        <MudCheckBox T="bool"
+                                     Label="Is Employee?"
+                                     For="@(() => InputModel.IsEmployed)"
+                                     @bind-Value="InputModel.IsEmployed" />
+                        <MudCheckBox T="bool"
+                                     Label="Is Coordinator?"
+                                     For="@(() => InputModel.IsProjectCoordinator)"
+                                     @bind-Value="InputModel.IsProjectCoordinator" />
+                    </MudItem>
+                    @if (IsBusy)
+                    {
+                        <MudProgressCircular Color="Color.Info" Indeterminate="true" />
+                    }
+                    else
+                    {
+                        <MudItem xs="11" Class="d-inline-flex flex-row-reverse pr-13 flex-grow-1 gap-10">
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Outlined" Color="Color.Success">CADASTRAR</MudButton>
+                        </MudItem>
+                    }
+                </MudGrid>
 
-                <div class="mb-3">
-                    <MudTextField T="string"
-                                  Label="Nome"
-                                  HelperText="Campo obrigatório"
-                                  InputType="InputType.Text"
-                                  For="@(() => InputModel.FirstName)"
-                                  @bind-Value="InputModel.FirstName" />
-                </div>
-
-                <div class="mb-3">
-                    <MudTextField T="string"
-                                  Label="Último Nome"
-                                  HelperText="Campo obrigatório"
-                                  InputType="InputType.Text"
-                                  For="@(() => InputModel.LastName)"
-                                  @bind-Value="InputModel.LastName" />
-                </div>
-
-                <div class="mb-3">
-                    <MudTextField T="string"
-                                  Label="Login"
-                                  HelperText="Campo obrigatório"
-                                  InputType="InputType.Text"
-                                  For="@(() => InputModel.Login)"
-                                  @bind-Value="InputModel.Login" />
-                </div>
-
-                <div class="mb-3">
-                    <MudTextField T="string"
-                                  Label="UserName"
-                                  HelperText="Campo obrigatório"
-                                  InputType="InputType.Text"
-                                  For="@(() => InputModel.UserName)"
-                                  @bind-Value="InputModel.UserName" />
-                    <div class="mb-3">
-                    </div>
-
-                    <MudTextField T="string"
-                                  Label="Senha"
-                                  HelperText="Campo obrigatório"
-                                  InputType="InputType.Password"
-                                  For="@(() => InputModel.Password)"
-                                  @bind-Value="InputModel.Password" />
-                </div>
-
-                <div class="mb-3">
-                    <MudTextField T="string"
-                                  Label="E-mail"
-                                  HelperText="Campo obrigatório"
-                                  InputType="InputType.Email"
-                                  For="@(() => InputModel.Email)"
-                                  @bind-Value="InputModel.Email" />
-                </div>
-
-                <div class="mb-3">
-                    <MudTextField T="DateTime"
-                                  Label="Data de Nascimento"
-                                  HelperText="Campo obrigatório"
-                                  InputType="InputType.DateTimeLocal"
-                                  For="@(() => InputModel.BirthDate)"
-                                  @bind-Value="InputModel.BirthDate" />
-                </div>
-
-                <MudCheckBox T="bool"
-                             Label="Funcionário"
-                             For="@(() => InputModel.IsEmployed)"
-                             @bind-Value="InputModel.IsEmployed" />
-                <MudCheckBox T="bool"
-                             Label="Coordenador"
-                             For="@(() => InputModel.IsProjectCoordinator)"
-                             @bind-Value="InputModel.IsProjectCoordinator" />
-
-                <div class="d-flex mt-8">
-
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">CADASTRAR</MudButton>
-                </div>
             </EditForm>
         </MudContainer>
     </MudPaper>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Blazored.LocalStorage;
+using Microsoft.Extensions.DependencyInjection;
 using SIGA.Application.Handles.Interfaces;
 using SIGA.IoC.Web.Handles;
 
@@ -9,6 +10,7 @@ public static class DependencyInjection
     {
         services.AddTransient<IAccountHandler, AccountHandler>();
         services.AddTransient<ILogoutHandler, AccountHandler>();
+        services.AddBlazoredLocalStorage();
 
         return services;
     }
