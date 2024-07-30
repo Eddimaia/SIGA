@@ -39,17 +39,12 @@ public class JwtService : IJwtService
 
         try
         {
-            // Verifica se o token é válido
             var tokenRead = tokenHandler.ReadJwtToken(token);
 
-            // Extrai o payload do token
             var payload = tokenRead.Payload;
 
-            // Adiciona claims a partir do payload
             claims.AddRange(payload.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString())));
 
-            // Adicione claims adicionais conforme necessário, usando o payload
-            // Exemplo:
             if (payload.TryGetValue(ClaimTypes.NameIdentifier, out var id))
             {
                 claims.Add(new Claim(ClaimTypes.NameIdentifier, id.ToString()));

@@ -52,12 +52,12 @@
                                       Label="Password"
                                       HelperText="Campo obrigatório"
                                       Variant="Variant.Outlined"
-                                      InputType="PasswordInput"
+                                      InputType="@PasswordInput"
                                       Adornment="Adornment.End"
-                                      AdornmentIcon="PasswordInputIcon"
-                                      OnAdornmentClick="ShowHidePassword"
+                                      AdornmentIcon="@PasswordInputIcon"
+                                      OnAdornmentClick="@ShowHidePassword"
                                       AdornmentAriaLabel="Mostrar Password"
-                                      AdornmentColor="Color.Info"
+                                      AdornmentColor="Color.Default"
                                       For="@(() => InputModel.Password)"
                                       @bind-Value="InputModel.Password" />
                     </MudItem>
@@ -112,7 +112,6 @@
                         </MudButton>
                     </MudItem>
                 </MudGrid>
-
             </EditForm>
         </MudContainer>
     </MudPaper>

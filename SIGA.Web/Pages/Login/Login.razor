@@ -11,15 +11,23 @@
 
             <MudTextField T="string"
                           Label="Login"
-                          HelperText="Campo obrigatório"
+                          Variant="Variant.Filled"
                           InputType="InputType.Text"
+                          Margin="Margin.Dense"
+                          Class="mb-5"
                           For="@(() => InputModel.Login)"
                           @bind-Value="InputModel.Login" />
 
             <MudTextField T="string"
                           Label="Senha"
-                          HelperText="Campo obrigatório"
-                          InputType="InputType.Password"
+                          Variant="Variant.Filled"
+                          Margin="Margin.Dense"
+                          InputType="@PasswordInput"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@PasswordInputIcon"
+                          OnAdornmentClick="@ShowHidePassword"
+                          AdornmentAriaLabel="Mostrar Password"
+                          AdornmentColor="Color.Default"
                           For="@(() => InputModel.Password)"
                           @bind-Value="InputModel.Password" />
 

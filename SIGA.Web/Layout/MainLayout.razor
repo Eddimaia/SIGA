@@ -14,21 +14,13 @@
         <MudLayout>
             <MudAppBar>
                 <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-                SIGA
+                <MudLink Href="/" Typo="Typo.body2" Color="Color.Inherit" Underline="Underline.None">SIGA</MudLink>
                 <MudSpacer />
-                Bem-Vindo(a), @registeredName
-                <MudSpacer />
+                <MudLink Href="/" Typo="Typo.body2" Color="Color.Inherit" Underline="Underline.None">Bem-Vindo(a), @registeredName&nbsp</MudLink>
                 <MudAvatar Src="https://via.placeholder.com/150" Size="Size.Medium" />
             </MudAppBar>
             <MudDrawer @bind-Open="@_drawerOpen">
-                <MudNavMenu>
-                    <MudNavLink Href="/" Match="NavLinkMatch.All">Início</MudNavLink>
-                    <MudNavGroup Title="Gestão" Expanded="true">
-                        <MudNavLink Href="/register" Match="NavLinkMatch.Prefix">Adicionar Usuário</MudNavLink>
-                    </MudNavGroup>
-                    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">Sobre</MudNavLink>
-                    <MudNavLink Match="NavLinkMatch.Prefix" OnClick="LogoutAsync">Sair</MudNavLink>
-                </MudNavMenu>
+                <SIGA.Web.Components.Menu.NavMenu />
             </MudDrawer>
             <MudMainContent>
                 @Body
@@ -41,11 +33,6 @@
 </AuthorizeView>
 
 @code {
-    [Inject]
-    public ILogoutHandler Handler { get; set; } = null!;
-
-    [Inject]
-    public NavigationManager NavigationManager { get; set; } = null!;
 
     [Inject]
     public ICustomAuthStateProvider AuthenticationStateProvider { get; set; } = null!;
@@ -57,19 +44,6 @@
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
-    }
-
-    public async Task LogoutAsync()
-    {
-
-        if (await AuthenticationStateProvider.CheckAuthenticatedAsync())
-        {
-            await Handler.LogoutAsync();
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            AuthenticationStateProvider.NotifyAuthenticationStateChanged();
-            NavigationManager.NavigateTo("/Login");
-        }
-
     }
 
     protected override async Task OnInitializedAsync()

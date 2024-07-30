@@ -1,0 +1,10 @@
+﻿@inherits NavMenuPage
+
+<MudNavMenu>
+    <MudNavLink Href="/" Match="NavLinkMatch.All">Início</MudNavLink>
+    <MudNavGroup Title="Gestão" Expanded="true">
+        <MudNavLink Href="/register" Match="NavLinkMatch.Prefix">Adicionar Usuário</MudNavLink>
+    </MudNavGroup>
+    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">Sobre</MudNavLink>
+    <MudNavLink Match="NavLinkMatch.Prefix" OnClick="@LogoutAsync">Sair</MudNavLink>
+</MudNavMenu>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using SIGA.Application.DTO.Account;
 using SIGA.Application.Handles.Interfaces;
 using SIGA.Web.Security.Interfaces;
@@ -9,6 +10,9 @@ public class LoginPage : ComponentBase
 {
     public bool IsBusy { get; set; } = false;
     public LoginRequest InputModel { get; set; } = new();
+    private bool isShow;
+    public InputType PasswordInput = InputType.Password;
+    public string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
 
     [Inject]
     public IAccountHandler Handler { get; set; } = null!;
@@ -51,6 +55,22 @@ public class LoginPage : ComponentBase
         finally
         {
             IsBusy = false;
+        }
+    }
+
+    public void ShowHidePassword()
+    {
+        if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
         }
     }
 }
