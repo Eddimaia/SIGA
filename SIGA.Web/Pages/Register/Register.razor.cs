@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
 using SIGA.Application.DTO.Account;
 using SIGA.Application.Handles.Interfaces;
 using SIGA.Web.Security.Interfaces;
+using System.Security.Claims;
 
 namespace SIGA.Web.Pages.Register;
 ///TODO: FINALIZAR REGISTRO
@@ -27,6 +27,7 @@ public class RegisterPage : ComponentBase
 
     [Inject]
     public ISnackbar Snackbar { get; set; } = null!;
+
 
     public async Task OnValidSubmitAsync()
     {

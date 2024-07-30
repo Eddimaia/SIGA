@@ -101,16 +101,16 @@
                                      For="@(() => InputModel.IsProjectCoordinator)"
                                      @bind-Value="InputModel.IsProjectCoordinator" />
                     </MudItem>
-                    @if (IsBusy)
-                    {
-                        <MudProgressCircular Color="Color.Info" Indeterminate="true" />
-                    }
-                    else
-                    {
-                        <MudItem xs="11" Class="d-inline-flex flex-row-reverse pr-13 flex-grow-1 gap-10">
-                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Outlined" Color="Color.Success">CADASTRAR</MudButton>
-                        </MudItem>
-                    }
+                    <MudItem xs="11" Class="d-inline-flex flex-row-reverse pr-13 flex-grow-1 gap-10">
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Outlined" Color="Color.Success">
+                            @if (IsBusy)
+                            {
+                                <MudProgressCircular Color="Color.Success" Indeterminate="true" Size="Size.Small" />
+                                <span>&nbsp</span>
+                            }
+                            CADASTRAR
+                        </MudButton>
+                    </MudItem>
                 </MudGrid>
 
             </EditForm>

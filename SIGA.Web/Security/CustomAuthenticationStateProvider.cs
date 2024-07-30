@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
+using SIGA.Application.DTO.Account;
+using SIGA.IoC.Web.Services;
 using SIGA.Web.Security.Interfaces;
+using SIGA.Web.Services.Interfaces;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Text.Json;
 
 namespace SIGA.Web.Security;
 
-public class CustomAuthenticationStateProvider(IHttpClientFactory clientFactory) : AuthenticationStateProvider, ICustomAuthStateProvider
+public class CustomAuthenticationStateProvider(IHttpClientFactory clientFactory, SessionStorageService sessionStorageService, IJwtService jwtService) : AuthenticationStateProvider, ICustomAuthStateProvider
 {
     private bool _isAuthenticated = false;
     private readonly HttpClient _client = clientFactory.CreateClient("siga");
@@ -15,24 +18,22 @@ public class CustomAuthenticationStateProvider(IHttpClientFactory clientFactory)
     {
         _isAuthenticated = false;
         var user = new ClaimsPrincipal(new ClaimsIdentity());
-        string? token;
+        List<Claim> claims;
         try
         {
-
-
-             token = await _client.GetFromJsonAsync<string?>("/v1/accounts/Info") ?? null;
-
+            var token = await sessionStorageService.GetItemAsync("jwtToken");
+            claims = jwtService.GetUserInfoFromJwt(token);
         }
         catch (Exception ex)
         {
-             token = null;
+            claims = [];
         }
 
         var identity = new ClaimsIdentity();
 
-        if (!string.IsNullOrEmpty(token))
+        if (claims.Count > 0)
         {
-            identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
+            identity = new ClaimsIdentity(claims, "jwt");
         }
         else
             return new AuthenticationState(user);
@@ -54,25 +55,4 @@ public class CustomAuthenticationStateProvider(IHttpClientFactory clientFactory)
 
     public void NotifyAuthenticationStateChanged()
         => NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
-
-    private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
-    {
-        var claims = new List<Claim>();
-        var payload = jwt.Split('.')[1];
-        var jsonBytes = ParseBase64WithoutPadding(payload);
-        var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
-
-        claims.AddRange(keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString())));
-        return claims;
-    }
-
-    private byte[] ParseBase64WithoutPadding(string base64)
-    {
-        switch (base64.Length % 4)
-        {
-            case 2: base64 += "=="; break;
-            case 3: base64 += "="; break;
-        }
-        return Convert.FromBase64String(base64);
-    }
 }

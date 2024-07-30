@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using SIGA.API.Configuration;
 using SIGA.API.Endpoints;
 using SIGA.Infrastructure.Context;
 using SIGA.IoC.Setup;
@@ -9,12 +11,18 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services
+   .AddDataProtection(o =>
+   {
+       o.ApplicationDiscriminator = "SIGA";
+   });
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddIoCServices();
         builder.Services.AddIoCHandles();
-        builder.Services.AddSecurity();
+        builder.Services.AddConfigurations(builder.Configuration);
+        builder.Services.AddSecurity(builder.Configuration);
         builder.Services.AddCors(
         options => options.AddPolicy("CORSTESTE", policy
             => policy

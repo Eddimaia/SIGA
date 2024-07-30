@@ -1,15 +1,20 @@
-﻿using Blazored.LocalStorage;
-using SIGA.Application.DTO;
+﻿using SIGA.Application.DTO;
 using SIGA.Application.DTO.Account;
 using SIGA.Application.Handles.Interfaces;
+using SIGA.IoC.Web.Services;
 using System.Net.Http.Json;
 using System.Text;
 
 namespace SIGA.IoC.Web.Handles;
 
-public class AccountHandler(IHttpClientFactory httpClientFactory, ILocalStorageService localStorage) : IAccountHandler, ILogoutHandler
+public class AccountHandler(IHttpClientFactory httpClientFactory, SessionStorageService sessionStorageService) : IAccountHandler, ILogoutHandler
 {
     private readonly HttpClient _client = httpClientFactory.CreateClient("siga");
+
+    public Task<Response<RegisterResponse?>> GetLoginInfo(string login)
+    {
+        throw new NotImplementedException();
+    }
 
     public async Task<Response<LoginResponse?>> LoginAsync(LoginRequest request)
     {
@@ -20,8 +25,9 @@ public class AccountHandler(IHttpClientFactory httpClientFactory, ILocalStorageS
         {
             var content = await response.Content.ReadFromJsonAsync<LoginResponse>();
 
-            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", content!.Token);
-            await localStorage.SetItemAsync("jwtToken", content!.Token);
+            await sessionStorageService.SetItemAsync("jwtToken", content!.Token);
+            await sessionStorageService.SetItemAsync("refreshToken", content!.RefreshToken);
+            await sessionStorageService.SetItemAsync("Login", request.Login);
 
             return new Response<LoginResponse?>(content, 200, "Login realizado com sucesso!");
         }
@@ -31,23 +37,27 @@ public class AccountHandler(IHttpClientFactory httpClientFactory, ILocalStorageS
 
     public async Task LogoutAsync()
     {
-        var token = await localStorage.GetItemAsync<string>("jwtToken");
-        _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-
         var emptyContent = new StringContent("{}", Encoding.UTF8, "application/json");
         var response = await _client.PostAsJsonAsync("/v1/accounts/Logout", emptyContent);
-        Console.WriteLine(response.ToString());
+
+        await sessionStorageService.ClearAsync();
     }
 
-    public Task<Response<LoginResponse?>> RefreshTokenAsync(RefreshTokenRequest request)
+    public async Task<Response<LoginResponse?>> RefreshTokenAsync(RefreshTokenRequest request)
     {
-        throw new NotImplementedException();
+        var response = await _client.PostAsJsonAsync("/v1/accounts/RefreshToken", request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadFromJsonAsync<LoginResponse>();
+            return new Response<LoginResponse?>(content, 200, "Tokens atualizados com sucesso!");
+        }
+
+        return new Response<LoginResponse?>(null, 401, "Não foi possível realizar a atualização dos tokens");
     }
 
     public async Task<Response<RegisterResponse?>> RegisterAsync(RegisterRequest request)
     {
-        var token = await localStorage.GetItemAsync<string>("jwtToken");
-        _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         var response = await _client.PostAsJsonAsync("/v1/accounts/Register", request);
         if (response.IsSuccessStatusCode)
         {

@@ -10,7 +10,6 @@ public class RegisterAccountEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPost("/Register", HandleAsync)
-
                 .RequireAuthorization(options => options.RequireRole("Admin"))
                 .WithName("Accounts: Register")
                 .WithSummary("Registra uma nova conta")

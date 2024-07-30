@@ -31,17 +31,6 @@ public class LoginAccountEndpoint() : IEndpoint
         if (result.Code == StatusCodes.Status500InternalServerError)
             return TypedResults.Problem();
 
-        var cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.Lax,
-            Expires = DateTime.Now.AddHours(3)
-        };
-
-        http.Response.Cookies.Append("jwt", result.Data!.Token, cookieOptions);
-        http.Response.Cookies.Append("refresh", result.Data!.RefreshToken, cookieOptions);
-
         return TypedResults.Ok(result.Data);
     }
 }

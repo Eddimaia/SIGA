@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
-namespace SIGA.Web.Security;
+namespace SIGA.Web.MessageHandles;
 
 public class CookieHandler : DelegatingHandler
 {
