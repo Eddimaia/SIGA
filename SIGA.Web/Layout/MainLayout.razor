@@ -4,7 +4,9 @@
 
 @inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider @ref="_mudThemeProvider"
+                  @bind-IsDarkMode="_isDarkMode"
+                  Theme="Themes.ThemeProvider.Default" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -23,7 +25,9 @@
                 <SIGA.Web.Components.Menu.NavMenu />
             </MudDrawer>
             <MudMainContent>
-                @Body
+                <MudContainer MaxWidth="MaxWidth.False">
+                    @Body
+                </MudContainer>
             </MudMainContent>
         </MudLayout>
     </Authorized>
@@ -34,12 +38,15 @@
 
 @code {
 
+    private MudThemeProvider _mudThemeProvider = null!;
+
     [Inject]
     public ICustomAuthStateProvider AuthenticationStateProvider { get; set; } = null!;
 
     bool _drawerOpen = false;
     private ClaimsPrincipal? user;
     private string? registeredName;
+    private bool _isDarkMode = true;
 
     void DrawerToggle()
     {
@@ -51,5 +58,22 @@
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         user = authState.User;
         registeredName = user.FindFirst("RegisteredName")?.Value;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+            StateHasChanged();
+        }
+    }
+
+    private Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _isDarkMode = newValue;
+        StateHasChanged();
+        return Task.CompletedTask;
     }
 }
