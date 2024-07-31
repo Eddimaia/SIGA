@@ -6,6 +6,9 @@ namespace SIGA.Web.Components.Menu;
 
 public class NavMenuPage : ComponentBase
 {
+    [Parameter]
+    public bool DrawerOpen { get; set; }
+
     [Inject]
     public ILogoutHandler Handler { get; set; } = null!;
 
@@ -28,5 +31,4 @@ public class NavMenuPage : ComponentBase
         }
 
     }
-
 }

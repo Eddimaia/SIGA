@@ -27,13 +27,14 @@ public static class ThemeProvider
         {
             Primary = new MudColor("#ECECEC"),
             Secondary = Colors.Gray.Darken2,
-            Background = new MudColor("#2E373F"),
-            AppbarBackground = new MudColor("#2E373F"),
+            Background = new MudColor("#363939"),
+            AppbarBackground = new MudColor("#363939"),
             AppbarText = Colors.Shades.White,
             TextPrimary = Colors.Shades.White,
-            DrawerText = Colors.Shades.White,
+            DrawerText = Colors.Gray.Lighten1,
             PrimaryContrastText = new MudColor("#000000"),
-            DrawerBackground = new MudColor("#284b63")
+            DrawerBackground = new MudColor("#284b63"),
+            Surface = new MudColor("#3E4444")
         }
     };
 }

@@ -2,7 +2,7 @@
 @using SIGA.Web.Security.Interfaces
 @using System.Security.Claims
 
-@inherits LayoutComponentBase
+@inherits MainLayoutPage
 
 <MudThemeProvider @ref="_mudThemeProvider"
                   @bind-IsDarkMode="_isDarkMode"
@@ -18,12 +18,13 @@
                 <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
                 <MudLink Href="/" Typo="Typo.body2" Color="Color.Inherit" Underline="Underline.None">SIGA</MudLink>
                 <MudSpacer />
+                <MudTooltip Text="Altera entre Light e Dark mode de forma manual">
+                    <MudIconButton Icon="@_themeIcon" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ChangeTheme" />
+                </MudTooltip>
                 <MudLink Href="/" Typo="Typo.body2" Color="Color.Inherit" Underline="Underline.None">Bem-Vindo(a), @registeredName&nbsp</MudLink>
                 <MudAvatar Src="https://via.placeholder.com/150" Size="Size.Medium" />
             </MudAppBar>
-            <MudDrawer @bind-Open="@_drawerOpen">
-                <SIGA.Web.Components.Menu.NavMenu />
-            </MudDrawer>
+            <SIGA.Web.Components.Menu.NavMenu DrawerOpen="_drawerOpen" />
             <MudMainContent>
                 <MudContainer MaxWidth="MaxWidth.False">
                     @Body
@@ -35,45 +36,3 @@
         <SIGA.Web.Components.Login.RedirectToLogin />
     </NotAuthorized>
 </AuthorizeView>
-
-@code {
-
-    private MudThemeProvider _mudThemeProvider = null!;
-
-    [Inject]
-    public ICustomAuthStateProvider AuthenticationStateProvider { get; set; } = null!;
-
-    bool _drawerOpen = false;
-    private ClaimsPrincipal? user;
-    private string? registeredName;
-    private bool _isDarkMode = true;
-
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        user = authState.User;
-        registeredName = user.FindFirst("RegisteredName")?.Value;
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
-            await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
-            StateHasChanged();
-        }
-    }
-
-    private Task OnSystemPreferenceChanged(bool newValue)
-    {
-        _isDarkMode = newValue;
-        StateHasChanged();
-        return Task.CompletedTask;
-    }
-}

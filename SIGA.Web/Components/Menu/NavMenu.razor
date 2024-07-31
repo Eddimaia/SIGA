@@ -1,10 +1,35 @@
 ﻿@inherits NavMenuPage
 
-<MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.All">Início</MudNavLink>
-    <MudNavGroup Title="Gestão" Expanded="true">
-        <MudNavLink Href="/register" Match="NavLinkMatch.Prefix">Adicionar Usuário</MudNavLink>
-    </MudNavGroup>
-    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">Sobre</MudNavLink>
-    <MudNavLink Match="NavLinkMatch.Prefix" OnClick="@LogoutAsync">Sair</MudNavLink>
-</MudNavMenu>
+<MudDrawer @bind-Open="@DrawerOpen" Elevation="15">
+    <MudNavMenu>
+        <MudNavLink Href="/"
+                    Match="NavLinkMatch.All"
+                    Icon="@Icons.Material.Filled.Home"
+                    IconColor="Color.Inherit">
+            Início
+        </MudNavLink>
+        <MudNavGroup Title="Gestão"
+                     Expanded="true"
+                     Icon="@Icons.Material.Filled.AdminPanelSettings"
+                     IconColor="Color.Inherit">
+            <MudNavLink Href="/register"
+                        Match="NavLinkMatch.Prefix"
+                        Icon="@Icons.Material.Filled.ManageAccounts"
+                        IconColor="Color.Inherit">
+                Adicionar Usuário
+            </MudNavLink>
+        </MudNavGroup>
+        <MudNavLink Href="/about"
+                    Match="@NavLinkMatch.Prefix"
+                    Icon="@Icons.Material.Filled.Info"
+                    IconColor="@Color.Inherit">
+            Sobre
+        </MudNavLink>
+        <MudNavLink Match="NavLinkMatch.Prefix"
+                    OnClick="@LogoutAsync"
+                    Icon="@Icons.Material.Filled.ExitToApp"
+                    IconColor="Color.Inherit">
+            Sair
+        </MudNavLink>
+    </MudNavMenu>
+</MudDrawer>
