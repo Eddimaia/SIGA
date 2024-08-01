@@ -1,8 +1,8 @@
 ﻿using SIGA.Application.Handles.Interfaces;
 using SIGA.Web.Services.Interfaces;
 using System.Net.Http.Headers;
-using SIGA.Application.DTO.Account;
 using SIGA.IoC.Web.Services;
+using SIGA.Application.DTO.Accounts;
 
 namespace SIGA.Web.MessageHandles;
 

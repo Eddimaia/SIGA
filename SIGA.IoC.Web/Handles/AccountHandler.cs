@@ -1,5 +1,5 @@
-﻿using SIGA.Application.DTO;
-using SIGA.Application.DTO.Account;
+﻿using SIGA.Application.DTO.Accounts;
+using SIGA.Application.DTO.Common;
 using SIGA.Application.Handles.Interfaces;
 using SIGA.IoC.Web.Services;
 using System.Net.Http.Json;

@@ -1,4 +1,4 @@
-﻿namespace SIGA.Application.DTO.Account;
+﻿namespace SIGA.Application.DTO.Accounts;
 public class LoginResponse
 {
     public string Token { get; set; } = null!;

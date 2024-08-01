@@ -1,6 +1,6 @@
 ﻿using SIGA.Domain.Entities;
 
-namespace SIGA.Application.DTO.Account;
+namespace SIGA.Application.DTO.Accounts;
 public class RegisterResponse
 {
     public int Id { get; set; }

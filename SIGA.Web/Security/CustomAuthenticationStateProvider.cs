@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.Extensions.Configuration;
-using SIGA.Application.DTO.Account;
 using SIGA.IoC.Web.Services;
 using SIGA.Web.Security.Interfaces;
 using SIGA.Web.Services.Interfaces;
-using System.Net.Http.Json;
 using System.Security.Claims;
-using System.Text.Json;
 
 namespace SIGA.Web.Security;
 

@@ -21,10 +21,10 @@
                 <MudTooltip Text="Altera entre Light e Dark mode de forma manual">
                     <MudIconButton Icon="@_themeIcon" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ChangeTheme" />
                 </MudTooltip>
-                <MudLink Href="/" Typo="Typo.body2" Color="Color.Inherit" Underline="Underline.None">Bem-Vindo(a), @registeredName&nbsp</MudLink>
+                <MudLink Href="/" Typo="Typo.body2" Color="Color.Inherit" Underline="Underline.None">Bem-Vindo(a), @_registeredName&nbsp</MudLink>
                 <MudAvatar Src="https://via.placeholder.com/150" Size="Size.Medium" />
             </MudAppBar>
-            <SIGA.Web.Components.Menu.NavMenu DrawerOpen="_drawerOpen" />
+            <SIGA.Web.Components.Menu.NavMenu DrawerOpen="@_drawerOpen" Login="@_login" />
             <MudMainContent>
                 <MudContainer MaxWidth="MaxWidth.False">
                     @Body

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SIGA.Application.DTO;
+namespace SIGA.Application.DTO.Common;
 public class Response<TEntityResponse>
 {
     private readonly int _code;

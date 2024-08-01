@@ -28,6 +28,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IAccountHandler, AccountHandler>();
         services.AddScoped<ILogoutRefreshEndpointHandler, AccountHandler>();
+        services.AddScoped<IProjectHandler, ProjectHandler>();
 
         return services;
     }

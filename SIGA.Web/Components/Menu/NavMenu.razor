@@ -1,7 +1,15 @@
 ﻿@inherits NavMenuPage
 
-<MudDrawer @bind-Open="@DrawerOpen" Elevation="15">
+<MudDrawer @bind-Open="@DrawerOpen" Elevation="15"  >
+    <MudDrawerHeader>
+        <MudContainer>
+            <MudImage Src="https://via.placeholder.com/150" Height="100" Width="100" Elevation="25" Class="rounded-lg" />
+            <MudSpacer />
+            <MudChip T="string" Size="Size.Medium" Color="Color.Inherit">@Login</MudChip>
+        </MudContainer>
+    </MudDrawerHeader>
     <MudNavMenu>
+        <MudDivider />
         <MudNavLink Href="/"
                     Match="NavLinkMatch.All"
                     Icon="@Icons.Material.Filled.Home"

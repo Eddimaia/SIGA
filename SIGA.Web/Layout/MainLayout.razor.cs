@@ -13,8 +13,9 @@ public class MainLayoutPage : LayoutComponentBase
 
     protected MudThemeProvider _mudThemeProvider = null!;
     protected bool _drawerOpen = false;
-    protected ClaimsPrincipal? user;
-    protected string? registeredName;
+    protected ClaimsPrincipal? _user;
+    protected string? _registeredName;
+    protected string? _login;
     protected bool _isDarkMode = true;
     protected string _themeIcon = null!;
     protected string _lightModeIcon = @Icons.Material.Filled.LightMode;
@@ -28,8 +29,9 @@ public class MainLayoutPage : LayoutComponentBase
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        user = authState.User;
-        registeredName = user.FindFirst("RegisteredName")?.Value;
+        _user = authState.User;
+        _registeredName = _user.FindFirst("RegisteredName")?.Value;
+        _login = _user.Identity!.Name;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

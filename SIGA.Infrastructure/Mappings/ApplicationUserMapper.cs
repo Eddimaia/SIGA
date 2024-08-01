@@ -90,6 +90,11 @@ public class ApplicationUserMapper : IEntityTypeConfiguration<ApplicationUser>
             .HasColumnType("BIT");
 
         builder
+            .Property(x => x.ImagePath)
+            .IsRequired()
+            .HasColumnType("VARCHAR(200)");
+
+        builder
             .HasMany(x => x.Roles)
             .WithMany(x => x.ApplicationUsers)
             .UsingEntity<ApplicationUserRole>();

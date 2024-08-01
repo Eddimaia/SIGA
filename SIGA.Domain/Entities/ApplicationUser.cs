@@ -53,6 +53,7 @@ public class ApplicationUser : Entity
     public bool IsPhoneNumberConfirmed { get; set; }
     public bool IsEmployed { get; set; }
     public bool IsProjectCoordinator { get; set; }
+    public string? ImagePath { get; set; }
 
 
 

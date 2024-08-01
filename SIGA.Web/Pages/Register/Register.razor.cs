@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using SIGA.Application.DTO.Account;
+using SIGA.Application.DTO.Accounts;
 using SIGA.Application.Handles.Interfaces;
 using SIGA.Web.Security.Interfaces;
-using System.Security.Claims;
 
 namespace SIGA.Web.Pages.Register;
 ///TODO: FINALIZAR REGISTRO

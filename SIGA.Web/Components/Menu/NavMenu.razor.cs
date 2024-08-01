@@ -8,6 +8,8 @@ public class NavMenuPage : ComponentBase
 {
     [Parameter]
     public bool DrawerOpen { get; set; }
+    [Parameter]
+    public string? Login {  get; set; }
 
     [Inject]
     public ILogoutHandler Handler { get; set; } = null!;

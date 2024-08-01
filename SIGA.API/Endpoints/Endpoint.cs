@@ -1,4 +1,5 @@
 ﻿using SIGA.API.Endpoints.Accounts;
+using SIGA.API.Endpoints.Projects;
 
 namespace SIGA.API.Endpoints;
 
@@ -20,6 +21,10 @@ public static class Endpoint
             .MapEndpoint<RefreshTokenAccountEndpoint>()
             .MapEndpoint<InfoAccountEndpoint>()
             .MapEndpoint<LogoutAccountEndpoint>();
+
+        endpoints.MapGroup("v1/projects")
+            .WithTags("Projects")
+            .MapEndpoint<GetPagedProjectsEndpoint>();
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

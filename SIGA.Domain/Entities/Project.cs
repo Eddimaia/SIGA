@@ -17,6 +17,7 @@ public class Project : Entity
 
     public string Name { get; set; } = null!;
     public string? Acronym { get; set; } = null!;
+    public string ImagePath { get; set; } = null!;
 
 
 

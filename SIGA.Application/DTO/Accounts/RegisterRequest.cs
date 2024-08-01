@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SIGA.Application.DTO.Account;
+namespace SIGA.Application.DTO.Accounts;
 public sealed class RegisterRequest
 {
     [Required(ErrorMessage = "O campo {0} é obrigatório")]

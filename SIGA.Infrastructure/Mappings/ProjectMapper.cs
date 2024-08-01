@@ -30,6 +30,11 @@ public class ProjectMapper : IEntityTypeConfiguration<Project>
             .HasColumnType("VARCHAR(10)");
 
         builder
+            .Property(x => x.ImagePath)
+            .IsRequired()
+            .HasColumnType("VARCHAR(200)");
+
+        builder
             .HasMany(x => x.Clients)
             .WithMany(x => x.Projects)
             .UsingEntity<ClientProject>();

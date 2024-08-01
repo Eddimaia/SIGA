@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.DataProtection;
-using SIGA.Application.DTO;
-using SIGA.Application.DTO.Account;
+using SIGA.Application.DTO.Accounts;
+using SIGA.Application.DTO.Common;
 using SIGA.Application.Handles.Interfaces;
 using System.Text.Json;
 

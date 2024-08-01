@@ -1,5 +1,5 @@
-﻿using SIGA.Application.DTO;
-using SIGA.Application.DTO.Account;
+﻿using SIGA.Application.DTO.Accounts;
+using SIGA.Application.DTO.Common;
 
 namespace SIGA.Application.Handles.Interfaces;
 public interface IAccountHandler

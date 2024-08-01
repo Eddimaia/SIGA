@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using SIGA.Application.DTO;
-using SIGA.Application.DTO.Account;
+using SIGA.Application.DTO.Accounts;
+using SIGA.Application.DTO.Common;
 using SIGA.Application.Handles.Interfaces;
 using SIGA.Application.Services.Interfaces;
 using SIGA.Domain.Entities;
