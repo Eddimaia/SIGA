@@ -10,6 +10,7 @@ public static class DependencyInjection
     {
         services.AddTransient<IAccountHandler, AccountHandler>();
         services.AddTransient<ILogoutHandler, AccountHandler>();
+        services.AddTransient<IProjectHandler, ProjectHandler>();
         services.AddBlazoredLocalStorage();
 
         return services;

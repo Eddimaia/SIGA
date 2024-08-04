@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Components\Menu\CustomDataGridPager.razor" />
+    <Content Remove="Components\Menu\GridPager.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.7" />
@@ -25,6 +30,14 @@
 
   <ItemGroup>
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Menu\GridPager.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Menu\GridPager.razor" />
   </ItemGroup>
 
 </Project>

@@ -9,9 +9,22 @@ public class ProjectHandler(IHttpClientFactory httpClientFactory) : IProjectHand
 {
     private readonly HttpClient _client = httpClientFactory.CreateClient("siga");
 
-    public async Task<PagedResponse<List<ProjectResponse>>> GetAsync(PagedRequest request)
+    public async Task<Response<ProjectResponse?>> DeleteAsync(int id)
     {
-        var response = await _client.GetAsync($"/v1/projects?pageSize={request.PageSize}&pageNumber={request.PageNumber}");
+        var response = await _client.DeleteAsync($"/v1/projects/{id}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadFromJsonAsync<Response<ProjectResponse?>>();
+            return content!;
+        }
+
+        return new Response<ProjectResponse?>(null, 400, "Falha ao excluir o projeto");
+    }
+
+    public async Task<PagedResponse<List<ProjectResponse>>> GetAsync(PagedProjectRequest request)
+    {
+        var response = await _client.GetAsync($"/v1/projects?searchString={request.SearchString}&pageSize={request.PageSize}&pageNumber={request.PageNumber}");
 
         if (response.IsSuccessStatusCode)
         {

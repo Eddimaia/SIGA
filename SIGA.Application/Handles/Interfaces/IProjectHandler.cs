@@ -4,5 +4,6 @@ using SIGA.Application.DTO.Projects;
 namespace SIGA.Application.Handles.Interfaces;
 public interface IProjectHandler
 {
-    Task<PagedResponse<List<ProjectResponse>>> GetAsync(PagedRequest request);
+    Task<PagedResponse<List<ProjectResponse>>> GetAsync(PagedProjectRequest request);
+    Task<Response<ProjectResponse?>> DeleteAsync(int id);
 }

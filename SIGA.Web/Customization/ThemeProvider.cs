@@ -1,7 +1,7 @@
 ﻿using MudBlazor;
 using MudBlazor.Utilities;
 
-namespace SIGA.Web.Themes;
+namespace SIGA.Web.Customization;
 
 /// <summary>
 /// <seealso cref="https://coolors.co/palette/353535-3c6e71-ffffff-d9d9d9-284b63"/> Default Light Theme Palette

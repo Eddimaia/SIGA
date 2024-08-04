@@ -1,0 +1,56 @@
+﻿@page "/projetos"
+@using SIGA.Application.DTO.Projects
+@layout MainLayout
+@inherits ListProjectPage
+
+<MudText Typo="Typo.h3" Class="mt-10">Projetos</MudText>
+
+<MudDivider Class="mt-5 mb-5" />
+
+<div class="d-flex justify-end mb-5">
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Secondary"
+               StartIcon="@Icons.Material.TwoTone.Add"
+               Href="/projetos/adicionar">
+        NOVO PROJETO
+    </MudButton>
+</div>
+
+<MudSpacer />
+
+<MudDataGrid @ref="@_dataGrid" T="ProjectResponse" ServerData="@LoadServerData" Filterable="false" Hover="true" Dense="true" Striped="false" Bordered="false">
+    <ToolBarContent>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))"
+                      Placeholder="Pesquisar..."
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      Immediate="true"
+                      IconSize="Size.Medium"
+                      Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="x => x.Id" Title="ID" Sortable="false" />
+        <PropertyColumn Property="x => x.Acronym" Title="Sigla" Sortable="false" />
+        <PropertyColumn Property="x => x.Name" Title="Nome" Sortable="false" />
+        <TemplateColumn CellClass="d-flex justify-end">
+            <CellTemplate>
+                <MudStack Row Wrap="Wrap.Wrap" Spacing="1">
+                    <MudTooltip Text="Incluir novos funcionários ao projeto">
+                        <MudIconButton Icon="@Icons.Material.TwoTone.PersonAdd" Color="Color.Inherit"></MudIconButton>
+                    </MudTooltip>
+                    <MudTooltip Text="Editar projeto">
+                        <MudIconButton Icon="@Icons.Material.TwoTone.Edit" Color="Color.Inherit" Href="@($"/projetos/editar/{context.Item.Id}")"></MudIconButton>
+                    </MudTooltip>
+                    <MudTooltip Text="Deletar projeto">
+                        <MudIconButton Icon="@Icons.Material.TwoTone.Delete" Color="Color.Error" aria-label="Excluir" 
+                        OnClick="() => OnDeleteButtonClickedAsync(context.Item.Id, context.Item.Acronym ?? context.Item.Name)"></MudIconButton>
+                    </MudTooltip>
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="ProjectResponse"  AllItemsText="Total" />
+    </PagerContent>
+</MudDataGrid>

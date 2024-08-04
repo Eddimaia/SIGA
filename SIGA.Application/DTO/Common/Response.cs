@@ -20,7 +20,9 @@ public class Response<TEntityResponse>
     }
 
     public TEntityResponse? Data { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Message { get; set; }
+    [JsonIgnore]
     public int Code => _code;
 
     [JsonIgnore]

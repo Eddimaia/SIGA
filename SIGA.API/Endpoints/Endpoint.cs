@@ -24,7 +24,8 @@ public static class Endpoint
 
         endpoints.MapGroup("v1/projects")
             .WithTags("Projects")
-            .MapEndpoint<GetPagedProjectsEndpoint>();
+            .MapEndpoint<GetPagedProjectsEndpoint>()
+            .MapEndpoint<DeleteProjectEndpoint>();
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
