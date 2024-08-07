@@ -9,7 +9,7 @@ public class DeleteProjectEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapDelete("/{id}", HandleAsync)
-            .RequireAuthorization()
+            //.RequireAuthorization("AdminDelete")
             .WithName("Projects: Delete")
             .WithSummary("Exclui um projeto")
             .WithDescription("Exclui um projeto")

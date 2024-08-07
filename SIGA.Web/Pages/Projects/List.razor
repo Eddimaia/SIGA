@@ -11,7 +11,7 @@
     <MudButton Variant="Variant.Filled"
                Color="Color.Secondary"
                StartIcon="@Icons.Material.TwoTone.Add"
-               Href="/projetos/adicionar">
+               Href="/projetos/criar">
         NOVO PROJETO
     </MudButton>
 </div>
@@ -31,7 +31,7 @@
     </ToolBarContent>
     <Columns>
         <PropertyColumn Property="x => x.Id" Title="ID" Sortable="false" />
-        <PropertyColumn Property="x => x.Acronym" Title="Sigla" Sortable="false" />
+        <PropertyColumn Property="@(x => x.Acronym == null ? "N/A" : x.Acronym)" Title="Sigla" Sortable="false" />
         <PropertyColumn Property="x => x.Name" Title="Nome" Sortable="false" />
         <TemplateColumn CellClass="d-flex justify-end">
             <CellTemplate>

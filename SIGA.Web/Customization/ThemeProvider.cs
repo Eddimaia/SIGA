@@ -13,8 +13,8 @@ public static class ThemeProvider
     {
         PaletteLight = new PaletteLight
         {
-            Primary = new MudColor("#ECECEC"),
-            PrimaryContrastText = new MudColor("#ffffff"),
+            Primary = Colors.BlueGray.Darken3,
+            PrimaryContrastText = Colors.BlueGray.Darken1,
             Secondary = new MudColor("#284b63"),
             Background = new MudColor("#F6F6F6"),
             AppbarBackground = new MudColor("#284b63"),
@@ -22,6 +22,7 @@ public static class ThemeProvider
             TextPrimary = Colors.Shades.Black,
             DrawerText = Colors.Shades.White,
             DrawerBackground = new MudColor("#8A9CA8")
+
         },
         PaletteDark = new PaletteDark
         {

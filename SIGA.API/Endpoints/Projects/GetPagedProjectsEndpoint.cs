@@ -16,7 +16,7 @@ public class GetPagedProjectsEndpoint : IEndpoint
                         .WithSummary("Lista de projetos")
                         .WithDescription("Lista de projetos paginados")
                         .WithOrder(1)
-                        .Produces<PagedResponse<IEnumerable<RegisterResponse>>>();
+                        .Produces<PagedResponse<List<ProjectResponse>>>();
 
     private static async Task<IResult> HandleAsync(
         IProjectHandler handler, 

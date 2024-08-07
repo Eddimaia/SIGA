@@ -6,7 +6,7 @@ public class Project : Entity
 {
     public Project()
     {
-        
+
     }
     public Project(int id, string name, string acronym)
     {
@@ -18,18 +18,19 @@ public class Project : Entity
     public string Name { get; set; } = null!;
     public string? Acronym { get; set; } = null!;
     public string ImagePath { get; set; } = null!;
+    public int? CoordinatorId { get; set; }
+
+    public ApplicationUser? Coordinator { get; set; }
 
 
 
     public ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
-    public ICollection<ApplicationUser> Coordinators { get; set; } = new List<ApplicationUser>();
     public ICollection<Client> Clients { get; set; } = new List<Client>();
     public ICollection<DatabaseAccess> DatabaseAccesses { get; set; } = new List<DatabaseAccess>();
 
     public ICollection<ClientProject> ClientProjects { get; set; } = new List<ClientProject>();
     public ICollection<CoordinatorProject> CoordinatorProjects { get; set; } = new List<CoordinatorProject>();
     public ICollection<DatabaseAcessProject> DatabaseAccessProjects { get; set; } = new List<DatabaseAcessProject>();
-    public ICollection<CoordinatorProject> CoordinatorsProjects { get; set; } = new List<CoordinatorProject>();
     public ICollection<DatabaseAcessProject> DatabaseAcessProjects { get; set; } = new List<DatabaseAcessProject>();
     public ICollection<ApplicationUserProject> UserProjects { get; set; } = new List<ApplicationUserProject>();
 }

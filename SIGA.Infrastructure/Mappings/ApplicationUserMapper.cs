@@ -111,8 +111,9 @@ public class ApplicationUserMapper : IEntityTypeConfiguration<ApplicationUser>
 
         builder
             .HasMany(x => x.CoordinatorProjects)
-            .WithMany(x => x.Coordinators)
-            .UsingEntity<CoordinatorProject>();
+            .WithOne(x => x.Coordinator)
+            .HasConstraintName("FK_Project_CoordinatorId")
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder
             .HasIndex(x => x.Email)

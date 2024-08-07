@@ -6,7 +6,7 @@ using SIGA.Web.Components.Dialog;
 
 namespace SIGA.Web.Pages.Projects;
 /// TODO: Concluir páginas de projeto
-public class ListProjectPage : Microsoft.AspNetCore.Components.ComponentBase
+public class ListProjectPage : ComponentBase
 {
     #region Properties
 

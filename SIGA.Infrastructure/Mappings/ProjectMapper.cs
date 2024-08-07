@@ -35,6 +35,11 @@ public class ProjectMapper : IEntityTypeConfiguration<Project>
             .HasColumnType("VARCHAR(200)");
 
         builder
+            .Property(x => x.CoordinatorId)
+            .IsRequired(false)
+            .HasColumnType("INT");
+
+        builder
             .HasMany(x => x.Clients)
             .WithMany(x => x.Projects)
             .UsingEntity<ClientProject>();
@@ -44,10 +49,13 @@ public class ProjectMapper : IEntityTypeConfiguration<Project>
             .WithMany(x => x.Projects)
             .UsingEntity<ApplicationUserProject>();
 
+
         builder
-            .HasMany(x => x.Coordinators)
+            .HasOne(x => x.Coordinator)
             .WithMany(x => x.CoordinatorProjects)
-            .UsingEntity<CoordinatorProject>();
+            .HasForeignKey(x => x.CoordinatorId)
+            .HasConstraintName("FK_Project_CoordinatorId")
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder
             .HasMany(x => x.DatabaseAccesses)

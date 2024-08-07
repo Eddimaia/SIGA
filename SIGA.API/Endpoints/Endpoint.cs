@@ -1,4 +1,5 @@
 ﻿using SIGA.API.Endpoints.Accounts;
+using SIGA.API.Endpoints.Employee;
 using SIGA.API.Endpoints.Projects;
 
 namespace SIGA.API.Endpoints;
@@ -25,7 +26,13 @@ public static class Endpoint
         endpoints.MapGroup("v1/projects")
             .WithTags("Projects")
             .MapEndpoint<GetPagedProjectsEndpoint>()
-            .MapEndpoint<DeleteProjectEndpoint>();
+            .MapEndpoint<DeleteProjectEndpoint>()
+            .MapEndpoint<CreateProjectEndpoint>();
+
+        endpoints.MapGroup("v1/employees")
+            .WithTags("Emplooyees")
+            .MapEndpoint<GetPagedEmployeeEndpoint>()
+            .MapEndpoint<GetAllEmployeeEndpoint>();
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

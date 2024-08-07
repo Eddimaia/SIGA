@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ignore the contents of the projectImg folder inside wwwroot
+wwwroot/projectImg/

@@ -66,6 +66,7 @@ internal class Program
             logger.LogError(ex, "Erro na migração");
         }
 
+        app.UseStaticFiles();
         app.MapEndpoints();
         app.Run();
     }

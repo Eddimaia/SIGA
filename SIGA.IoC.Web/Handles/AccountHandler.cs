@@ -2,6 +2,7 @@
 using SIGA.Application.DTO.Common;
 using SIGA.Application.Handles.Interfaces;
 using SIGA.IoC.Web.Services;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 
@@ -31,6 +32,9 @@ public class AccountHandler(IHttpClientFactory httpClientFactory, SessionStorage
 
             return new Response<LoginResponse?>(content, 200, "Login realizado com sucesso!");
         }
+
+        if(response.StatusCode == HttpStatusCode.Unauthorized)
+            return new Response<LoginResponse?>(null, 401, "Login ou senha inválidos!");
 
         return new Response<LoginResponse?>(null, 401, "Não foi possível realizar o login");
     }

@@ -6,4 +6,5 @@ public interface IProjectHandler
 {
     Task<PagedResponse<List<ProjectResponse>>> GetAsync(PagedProjectRequest request);
     Task<Response<ProjectResponse?>> DeleteAsync(int id);
+    Task<Response<ProjectResponse?>> CreateAsync(CreateProjectRequest request);
 }

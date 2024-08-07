@@ -23,6 +23,9 @@ public class LoginPage : ComponentBase
     [Inject]
     public ICustomAuthStateProvider AuthenticationStateProvider { get; set; } = null!;
 
+    [Inject]
+    public ISnackbar Snackbar { get; set; } = null!;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -46,11 +49,12 @@ public class LoginPage : ComponentBase
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 AuthenticationStateProvider.NotifyAuthenticationStateChanged();
                 NavigationManager.NavigateTo("/");
-            }
+            }else
+                Snackbar.Add(result.Message, Severity.Error);
         }
         catch (Exception ex)
         {
-            
+            Snackbar.Add(ex.Message, Severity.Error);
         }
         finally
         {

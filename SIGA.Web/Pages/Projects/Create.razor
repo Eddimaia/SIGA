@@ -1,0 +1,107 @@
+﻿@page "/projetos/criar"
+@inherits CreatePage
+@layout MainLayout
+
+<MudText Typo="Typo.h3" Class="mt-10">Adicionar Novo Projeto</MudText>
+
+<MudGrid Justify="Justify.FlexStart">
+    <MudPaper Class="pa-20 ma-20" Outlined="false" Square="true" Height="100%" Width="100%">
+        <MudContainer>
+            <EditForm Model="InputModel" OnValidSubmit="OnValidSubmitAsync">
+                <DataAnnotationsValidator />
+
+                <MudGrid Spacing="6" Justify="Justify.Center">
+                    <MudItem xs="3" sm="12" md="3">
+                        <MudTextField T="string"
+                                      Margin="Margin.Dense"
+                                      Label="Nome"
+                                      HelperText="Campo obrigatório"
+                                      InputType="InputType.Text"
+                                      Variant="Variant.Outlined"
+                                      For="@(() => InputModel.Name)"
+                                      @bind-Value="InputModel.Name" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="12" md="3">
+                        <MudTextField T="string"
+                                      Margin="Margin.Dense"
+                                      Label="Sigla"
+                                      HelperText="Campo obrigatório"
+                                      InputType="InputType.Text"
+                                      Variant="Variant.Outlined"
+                                      For="@(() => InputModel.Acronym)"
+                                      @bind-Value="InputModel.Acronym" />
+                    </MudItem>
+
+                    <MudItem xs="3" sm="12" md="3">
+                        <MudSelect T="int"
+                                   Margin="Margin.Dense"
+                                   Variant="Variant.Outlined"
+                                   Clearable=true
+                                   AnchorOrigin="Origin.BottomCenter"
+                                   Placeholder="Selecione"
+                                   Label="Funcionários"
+                                   MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))"
+                                   MultiSelection="true"
+                                   @bind-SelectedValues="@InputModel.UsersIds"
+                                   SelectAll="true">
+                            @foreach (var employee in Employees)
+                            {
+                                <MudSelectItem Value="@employee.Id">@employee.FullName</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+
+                    <MudItem xs="3" sm="12" md="3">
+                        <MudSelect T="int"
+                                   Margin="Margin.Dense"
+                                   Variant="Variant.Outlined"
+                                   Clearable=true
+                                   AnchorOrigin="Origin.BottomCenter"
+                                   Placeholder="Selecione"
+                                   Label="Coordenador"
+                                   @bind-Value="@_coordinatorId"
+                                   Required="false">
+                            @foreach (var employee in Employees.Where(x => x.IsCoordinator))
+                            {
+                                <MudSelectItem Value="@employee.Id">@employee.FullName</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid>
+                <MudGrid Spacing="2" Class="mt-5" Justify="Justify.SpaceBetween">
+                    <MudItem xs="3" sm="12" md="3" Class="d-inline-flex">
+                        <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                            <ActivatorContent>
+                                <MudFab Color="Color.Secondary"
+                                        StartIcon="@Icons.Material.Filled.Image"
+                                        Label="Carregar imagem" />
+                            </ActivatorContent>
+                            <SelectedTemplate Context="fileContext">
+                                @if (fileContext != null)
+                                {
+                                    <MudText>@fileContext.Name</MudText>
+                                }
+                                else
+                                {
+                                    <MudText>No File</MudText>
+                                }
+                            </SelectedTemplate>
+                        </MudFileUpload>
+                    </MudItem>
+
+                    <MudItem xs="11" Class="d-inline-flex flex-row-reverse pr-13 flex-grow-1 gap-10">
+                        <MudButton ButtonType="ButtonType.Submit" Size="Size.Medium" Variant="Variant.Outlined" Color="Color.Success">
+                            @if (IsBusy)
+                            {
+                                <MudProgressCircular Color="Color.Success" Indeterminate="true" Size="Size.Small" />
+                                <span>&nbsp</span>
+                            }
+                            CADASTRAR
+                        </MudButton>
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
+        </MudContainer>
+    </MudPaper>
+</MudGrid>

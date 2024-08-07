@@ -39,6 +39,11 @@ public class ApplicationUser : Entity
         IsProjectCoordinator = isProjectCoordinator;
     }
 
+    public ApplicationUser(int id)
+    {
+        Id = id;
+    }
+
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public string Login { get; set; } = null!;
@@ -62,7 +67,6 @@ public class ApplicationUser : Entity
     public ICollection<Project> CoordinatorProjects { get; set; } = new List<Project>();
     public ICollection<Claim> Claims { get; set; } = new List<Claim>();
     public ICollection<VpnAccess> VpnAccesses { get; set; } = new List<VpnAccess>();
-    public ICollection<CoordinatorProject> CoordinatorsProjects { get; set; } = new List<CoordinatorProject>();
     public ICollection<ApplicationUserClaim> UserClaims { get; set; } = new List<ApplicationUserClaim>();
     public ICollection<ApplicationUserProject> UserProjects { get; set; } = new List<ApplicationUserProject>();
     public ICollection<ApplicationUserRole> UserRoles { get; set; } = new List<ApplicationUserRole>();
